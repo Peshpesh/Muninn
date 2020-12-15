@@ -10,7 +10,7 @@ namespace {
 CTransition::CTransition() {
   activated = false;
   fadeout_timer = fadein_timer = delay_timer = last_time = 0;
-  locationID = location::DEFAULT;
+  // locationID = location::DEFAULT;
   X = Y = 0;
   mode = APP_MODE_TITLE;
   color = rgb::black;
@@ -20,23 +20,23 @@ void CTransition::setColor(const SDL_Color& color) {
   this->color = color;
 }
 
-void CTransition::reqTrans(const int& loc, const int &X, const int &Y) {
-  if (loc < 0 || loc >= location::num) return;
-
-  fadeout_timer = fadein_timer = reset_time;
-  delay_timer = delay_time;
-  last_time = SDL_GetTicks();
-
-  locationID = loc;
-  this->X = X;
-  this->Y = Y;
-}
+// void CTransition::reqTrans(const int& loc, const int &X, const int &Y) {
+//   if (loc < 0 || loc >= location::num) return;
+//
+//   fadeout_timer = fadein_timer = reset_time;
+//   delay_timer = delay_time;
+//   last_time = SDL_GetTicks();
+// 
+//   locationID = loc;
+//   this->X = X;
+//   this->Y = Y;
+// }
 
 void CTransition::reqReset() {
   fadeout_timer = fadein_timer = reset_time;
   delay_timer = delay_time;
   last_time = SDL_GetTicks();
-  locationID = location::DEFAULT;
+  // locationID = location::DEFAULT;
   X = Y = 0;
 }
 

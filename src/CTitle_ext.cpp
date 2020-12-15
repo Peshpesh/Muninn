@@ -64,9 +64,9 @@ namespace Title {
       const short h = opt_h * num;                // menu height
       const short x = (WWIDTH - w) / 2;           // menu x position
       const short y = ((2 * WHEIGHT / 3) - h) / 2;          // menu y position
-      const Difficulty d_list[] = {
-        EASY, NORMAL, HARD, BRUTAL,
-      };
+      // const Difficulty d_list[] = {
+      //   EASY, NORMAL, HARD, BRUTAL,
+      // };
       const char* const list[] = {
         "Easy", "Normal", "Hard", "Brutal",
       };

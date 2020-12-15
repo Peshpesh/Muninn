@@ -11,7 +11,7 @@
 #include "CControls.h"
 #include "CConfig.h"
 
-#include "CGameIO.h"
+// #include "CIO.h"
 #include "CTransition.h"
 
 namespace Title {
@@ -88,7 +88,7 @@ namespace Title {
       extern const short h;
       extern const short x;
       extern const short y;
-      extern const Difficulty d_list[];
+      // extern const Difficulty d_list[];
       extern const char* const list[];
       extern const char* const info[];
       extern const SDL_Point* o_diff[];
@@ -178,10 +178,10 @@ private:
   bool drawOptions();
 
 private:
-  bool drawGameSlot(const CGameinfo& info, const SDL_Rect& slot);
-  bool drawDifficulty();
-  bool drawOverwriteWarn(const short& slot);
-  bool drawGameInfo();
+  // bool drawGameSlot(const CGameinfo& info, const SDL_Rect& slot);
+  // bool drawDifficulty();
+  // bool drawOverwriteWarn(const short& slot);
+  // bool drawGameInfo();
   bool drawControls();
   bool drawConfig();
 

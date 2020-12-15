@@ -25,10 +25,10 @@ bool CApp::OnInit() {
     return false;
   }
 
-  if (!CAsset::OnInit()) {
-    CError::handler.ReportErr("FATAL => CAsset failed to initialize.");
-    return false;
-  }
+  // if (!CAsset::OnInit()) {
+  //   CError::handler.ReportErr("FATAL => CAsset failed to initialize.");
+  //   return false;
+  // }
 
   if (!CType::control.OnInit()) {
     CError::handler.ReportErr("FATAL => CType failed to initialize.");

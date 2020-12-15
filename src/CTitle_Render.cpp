@@ -20,32 +20,32 @@ bool CTitle::drawMainMenu() {
 
   SDL_Rect bar = {x, y, opt_w, opt_h};
 
-  for (int i = 0; i < num_options; i++) {
-    if (i == decision::DEC_LOAD && !CGameIO::control.getNumSavedGames()) {
-      if (!CAsset::drawStrBox(bar, stroke_w, o_lock)) return false;
-      CType::CenterWrite(opt_list[i], bar, f_lock);
-    } else {
-      if (!CAsset::drawStrBox(bar, stroke_w, (i != pos) ? o_def : o_hov)) return false;
-      CType::CenterWrite(opt_list[i], bar, (i != pos) ? f_def : f_hov);
-    }
-    bar.x += dx;
-    bar.y += dy + opt_h;
-  }
+  // for (int i = 0; i < num_options; i++) {
+  //   if (i == decision::DEC_LOAD && !CGameIO::control.getNumSavedGames()) {
+  //     if (!CAsset::drawStrBox(bar, stroke_w, o_lock)) return false;
+  //     CType::CenterWrite(opt_list[i], bar, f_lock);
+  //   } else {
+  //     if (!CAsset::drawStrBox(bar, stroke_w, (i != pos) ? o_def : o_hov)) return false;
+  //     CType::CenterWrite(opt_list[i], bar, (i != pos) ? f_def : f_hov);
+  //   }
+  //   bar.x += dx;
+  //   bar.y += dy + opt_h;
+  // }
   return true;
 }
 
 bool CTitle::drawNewGame() {
-  if (!drawGameInfo()) return false;
-
-  if (sel_difficulty && (!drawDifficulty() || !drawOverwriteWarn(pos))) {
-    return false;
-  }
+  // if (!drawGameInfo()) return false;
+  //
+  // if (sel_difficulty && (!drawDifficulty() || !drawOverwriteWarn(pos))) {
+  //   return false;
+  // }
 
   return true;
 }
 
 bool CTitle::drawLoadGame() {
-  if (!drawGameInfo()) return false;
+  // if (!drawGameInfo()) return false;
 
   return true;
 }
@@ -57,81 +57,81 @@ bool CTitle::drawOptions() {
   return true;
 }
 
-bool CTitle::drawGameSlot(const CGameinfo& info, const SDL_Rect& slot) {
-  using namespace Title::pick_game::slot;
-  std::string str;
-  SDL_Point pos;
-  if (info.diff == EASY || info.diff == NORMAL || info.diff == HARD || info.diff == BRUTAL) {
-    str = Title::pick_game::difficulty::list[info.diff];
-  }
-  pos.x = slot.x + diff_pos.x; pos.y = slot.y + diff_pos.y;
-  CType::CenterWrite(str.c_str(), pos);
+// bool CTitle::drawGameSlot(const CGameinfo& info, const SDL_Rect& slot) {
+//   using namespace Title::pick_game::slot;
+//   std::string str;
+//   SDL_Point pos;
+//   if (info.diff == EASY || info.diff == NORMAL || info.diff == HARD || info.diff == BRUTAL) {
+//     str = Title::pick_game::difficulty::list[info.diff];
+//   }
+//   pos.x = slot.x + diff_pos.x; pos.y = slot.y + diff_pos.y;
+//   CType::CenterWrite(str.c_str(), pos);
+//
+//   str = CUtil::msToHHMMSS(info.time);
+//   pos.x = slot.x + time_pos.x; pos.y = slot.y + time_pos.y;
+//   CType::CenterWrite(str.c_str(), pos);
+//   // CType::CenterWrite(str.c_str(), slot, (i != pos) ? f_def : f_hov);
+//
+//   return true;
+// }
 
-  str = CUtil::msToHHMMSS(info.time);
-  pos.x = slot.x + time_pos.x; pos.y = slot.y + time_pos.y;
-  CType::CenterWrite(str.c_str(), pos);
-  // CType::CenterWrite(str.c_str(), slot, (i != pos) ? f_def : f_hov);
+// bool CTitle::drawGameInfo() {
+//   using namespace Title::pick_game;
+//
+//   SDL_Rect slot = {x, y, slot::w, slot::h};
+//   for (int i = 0; i < slot::num; i++) {
+//     if (!CAsset::drawStrBox(slot, stroke_w, (i != pos) ? o_def : o_hov)) return false;
+//     if (CGameinfo::infolist[i]) {
+//       if (!drawGameSlot(*CGameinfo::infolist[i], slot)) return false;
+//     } else {
+//       CType::CenterWrite(empty_text, slot, (i != pos) ? f_def : f_hov);
+//     }
+//     slot.x += dx;
+//     slot.y += dy;
+//   }
+//
+//   SDL_Rect bar = {x, slot.y, opt_w, opt_h};
+//   for (int i = 0; i < num_other; i++) {
+//     if (!CAsset::drawStrBox(bar, stroke_w, (i != pos - slot::num) ? o_def : o_hov)) return false;
+//     CType::CenterWrite(other_list[i], bar, (i != pos - slot::num) ? f_def : f_hov);
+//     bar.x += dx;
+//     bar.y += dy;
+//   }
+//   return true;
+// }
 
-  return true;
-}
+// bool CTitle::drawDifficulty() {
+//   using namespace Title::pick_game::difficulty;
+//
+//   SDL_Rect bar = {x, y, opt_w, opt_h};
+//   for (int i = 0; i < num; i++) {
+//     if (i != difficulty) {
+//       if (!CAsset::drawStrBox(bar, stroke_w, o_diff[i])) return false;
+//       CType::CenterWrite(list[i], bar, f_def);
+//     } else {
+//       SDL_Rect info_bar = {bar.x + opt_w, bar.y, info_w, info_h};
+//       if (!CAsset::drawStrBox(bar, stroke_w, h_diff[i])) return false;
+//       if (!CAsset::drawStrBox(info_bar, stroke_w, h_diff[i])) return false;
+//       CType::CenterWrite(list[i], bar, f_hov);
+//       CType::CenterWrite(info[i], info_bar, f_hov);
+//     }
+//     bar.x += dx;
+//     bar.y += dy;
+//   }
+//   return true;
+// }
 
-bool CTitle::drawGameInfo() {
-  using namespace Title::pick_game;
-
-  SDL_Rect slot = {x, y, slot::w, slot::h};
-  for (int i = 0; i < slot::num; i++) {
-    if (!CAsset::drawStrBox(slot, stroke_w, (i != pos) ? o_def : o_hov)) return false;
-    if (CGameinfo::infolist[i]) {
-      if (!drawGameSlot(*CGameinfo::infolist[i], slot)) return false;
-    } else {
-      CType::CenterWrite(empty_text, slot, (i != pos) ? f_def : f_hov);
-    }
-    slot.x += dx;
-    slot.y += dy;
-  }
-
-  SDL_Rect bar = {x, slot.y, opt_w, opt_h};
-  for (int i = 0; i < num_other; i++) {
-    if (!CAsset::drawStrBox(bar, stroke_w, (i != pos - slot::num) ? o_def : o_hov)) return false;
-    CType::CenterWrite(other_list[i], bar, (i != pos - slot::num) ? f_def : f_hov);
-    bar.x += dx;
-    bar.y += dy;
-  }
-  return true;
-}
-
-bool CTitle::drawDifficulty() {
-  using namespace Title::pick_game::difficulty;
-
-  SDL_Rect bar = {x, y, opt_w, opt_h};
-  for (int i = 0; i < num; i++) {
-    if (i != difficulty) {
-      if (!CAsset::drawStrBox(bar, stroke_w, o_diff[i])) return false;
-      CType::CenterWrite(list[i], bar, f_def);
-    } else {
-      SDL_Rect info_bar = {bar.x + opt_w, bar.y, info_w, info_h};
-      if (!CAsset::drawStrBox(bar, stroke_w, h_diff[i])) return false;
-      if (!CAsset::drawStrBox(info_bar, stroke_w, h_diff[i])) return false;
-      CType::CenterWrite(list[i], bar, f_hov);
-      CType::CenterWrite(info[i], info_bar, f_hov);
-    }
-    bar.x += dx;
-    bar.y += dy;
-  }
-  return true;
-}
-
-bool CTitle::drawOverwriteWarn(const short& slot) {
-  using namespace Title::pick_game::overwrite;
-
-  if (CGameinfo::infolist[slot]) {
-    SDL_Rect bar = {x, y, w, h};
-    if (!CAsset::drawStrBox(bar, stroke_w, o_col)) return false;
-    CType::CenterWrite(info, bar, f_col);
-  }
-
-  return true;
-}
+// bool CTitle::drawOverwriteWarn(const short& slot) {
+//   using namespace Title::pick_game::overwrite;
+//
+//   if (CGameinfo::infolist[slot]) {
+//     SDL_Rect bar = {x, y, w, h};
+//     if (!CAsset::drawStrBox(bar, stroke_w, o_col)) return false;
+//     CType::CenterWrite(info, bar, f_col);
+//   }
+//
+//   return true;
+// }
 
 bool CTitle::drawControls() {
   using namespace Title::options;

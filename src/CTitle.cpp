@@ -13,7 +13,7 @@ void CTitle::OnInit() {
   menu_kind = Title::MAIN;
   pos = 0;
   if (CTransition::control.activated) {
-    CGameIO::control.loadAllGameinfo();
+    // CGameIO::control.loadAllGameinfo();
     CTransition::control.activated = false;
   }
   CType::control.SetColor(&rgb::black);

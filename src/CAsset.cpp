@@ -1,20 +1,20 @@
 #include "CAsset.h"
 
 SDL_Texture* CAsset::paltex = NULL;
-SDL_Texture* CAsset::arrtex = NULL;
+// SDL_Texture* CAsset::arrtex = NULL;
 SDL_Texture* CAsset::crttex = NULL;
 
 namespace symbols {
-  // arrow fills
-  const SDL_Rect f_AL = {15, 15, ARR_SZ, ARR_SZ};
-  const SDL_Rect f_AR = {0,  15, ARR_SZ, ARR_SZ};
-  const SDL_Rect f_AU = {15, 0,  ARR_SZ, ARR_SZ};
-  const SDL_Rect f_AD = {0,  0,  ARR_SZ, ARR_SZ};
-  // arrow strokes
-  const SDL_Rect s_AL = {45, 15, ARR_SZ, ARR_SZ};
-  const SDL_Rect s_AR = {30, 15, ARR_SZ, ARR_SZ};
-  const SDL_Rect s_AU = {45, 0,  ARR_SZ, ARR_SZ};
-  const SDL_Rect s_AD = {30, 0,  ARR_SZ, ARR_SZ};
+  // // arrow fills
+  // const SDL_Rect f_AL = {15, 15, ARR_SZ, ARR_SZ};
+  // const SDL_Rect f_AR = {0,  15, ARR_SZ, ARR_SZ};
+  // const SDL_Rect f_AU = {15, 0,  ARR_SZ, ARR_SZ};
+  // const SDL_Rect f_AD = {0,  0,  ARR_SZ, ARR_SZ};
+  // // arrow strokes
+  // const SDL_Rect s_AL = {45, 15, ARR_SZ, ARR_SZ};
+  // const SDL_Rect s_AR = {30, 15, ARR_SZ, ARR_SZ};
+  // const SDL_Rect s_AU = {45, 0,  ARR_SZ, ARR_SZ};
+  // const SDL_Rect s_AD = {30, 0,  ARR_SZ, ARR_SZ};
 }
 
 CAsset::CAsset() {
@@ -25,9 +25,9 @@ bool CAsset::OnInit() {
   if ((paltex = CSurface::OnLoad("../res/palette.png")) == NULL) {
     return false;
   }
-  if ((arrtex = CSurface::OnLoad("../res/arrow.png")) == NULL) {
-    return false;
-  }
+  // if ((arrtex = CSurface::OnLoad("../res/arrow.png")) == NULL) {
+  //   return false;
+  // }
   if ((crttex = CSurface::OnLoad("../res/carot.png")) == NULL) {
     return false;
   }
@@ -36,12 +36,12 @@ bool CAsset::OnInit() {
   return true;
 }
 
-void CAsset::queryTileDims(SDL_Texture* texture, int& w, int& h) {
-  int PixWidth, PixHeight;
-  SDL_QueryTexture(texture, NULL, NULL, &PixWidth, &PixHeight);
-  w = PixWidth / TILE_SIZE;
-  h = PixHeight / TILE_SIZE;
-}
+// void CAsset::queryTileDims(SDL_Texture* texture, int& w, int& h) {
+//   int PixWidth, PixHeight;
+//   SDL_QueryTexture(texture, NULL, NULL, &PixWidth, &PixHeight);
+//   w = PixWidth / TILE_SIZE;
+//   h = PixHeight / TILE_SIZE;
+// }
 
 void CAsset::paletteAlpha(const short& a) {
   if (a >= 0 && a <= MAX_RGBA) {
@@ -112,24 +112,24 @@ SDL_Rect CAsset::getWinCentRect(const unsigned int& w, const unsigned int& h) {
   return CAsset::getRect(X, Y, w, h);
 }
 
-SDL_Rect CAsset::getTileRect(const SDL_Point* A, const SDL_Point* B) {
-  int xmin = (A->x <  B->x) ? A->x : B->x;
-  int xmax = (A->x >= B->x) ? A->x : B->x;
-  int ymin = (A->y <  B->y) ? A->y : B->y;
-  int ymax = (A->y >= B->y) ? A->y : B->y;
-
-  xmin -= (xmin >= 0) ? (xmin % TILE_SIZE) : (bool)(xmin % TILE_SIZE) * (TILE_SIZE + (xmin % TILE_SIZE));
-  ymin -= (ymin >= 0) ? (ymin % TILE_SIZE) : (bool)(ymin % TILE_SIZE) * (TILE_SIZE + (ymin % TILE_SIZE));
-  xmax += (xmax >= 0) ? (TILE_SIZE - (xmax % TILE_SIZE) - 1) : -((xmax + 1) % TILE_SIZE);
-  ymax += (ymax >= 0) ? (TILE_SIZE - (ymax % TILE_SIZE) - 1) : -((ymax + 1) % TILE_SIZE);
-
-  int w = xmax - xmin + 1;
-  int h = ymax - ymin + 1;
-
-  SDL_Rect rect = {xmin, ymin, w, h};
-
-  return rect;
-}
+// SDL_Rect CAsset::getTileRect(const SDL_Point* A, const SDL_Point* B) {
+//   int xmin = (A->x <  B->x) ? A->x : B->x;
+//   int xmax = (A->x >= B->x) ? A->x : B->x;
+//   int ymin = (A->y <  B->y) ? A->y : B->y;
+//   int ymax = (A->y >= B->y) ? A->y : B->y;
+//
+//   xmin -= (xmin >= 0) ? (xmin % TILE_SIZE) : (bool)(xmin % TILE_SIZE) * (TILE_SIZE + (xmin % TILE_SIZE));
+//   ymin -= (ymin >= 0) ? (ymin % TILE_SIZE) : (bool)(ymin % TILE_SIZE) * (TILE_SIZE + (ymin % TILE_SIZE));
+//   xmax += (xmax >= 0) ? (TILE_SIZE - (xmax % TILE_SIZE) - 1) : -((xmax + 1) % TILE_SIZE);
+//   ymax += (ymax >= 0) ? (TILE_SIZE - (ymax % TILE_SIZE) - 1) : -((ymax + 1) % TILE_SIZE);
+//
+//   int w = xmax - xmin + 1;
+//   int h = ymax - ymin + 1;
+//
+//   SDL_Rect rect = {xmin, ymin, w, h};
+//
+//   return rect;
+// }
 
 SDL_Point CAsset::getPos(int X, int Y) {
   SDL_Point pos;
@@ -400,87 +400,87 @@ bool CAsset::drawCircle(const int& Xo, const int& Yo, const int& r) {
   return true;
 }
 
-bool CAsset::drawArrow(const SDL_Rect& dstR, const char& dir, const SDL_Color* rgb) {
-  using namespace symbols;
-
-  bool retval = false;
-
-  SDL_SetTextureColorMod(arrtex, rgb->r, rgb->g, rgb->b);
-
-  switch (dir)
-  {
-    case 'L': retval = CSurface::OnDraw(arrtex, s_AL, dstR); break;
-    case 'R': retval = CSurface::OnDraw(arrtex, s_AR, dstR); break;
-    case 'U': retval = CSurface::OnDraw(arrtex, s_AU, dstR); break;
-    case 'D': retval = CSurface::OnDraw(arrtex, s_AD, dstR); break;
-    default: break;
-  }
-
-  return retval;
-}
-
-bool CAsset::drawArrowFill(const SDL_Rect& dstR, const char& dir, const SDL_Color* rgb) {
-  using namespace symbols;
-
-  bool retval = false;
-
-  SDL_SetTextureColorMod(arrtex, rgb->r, rgb->g, rgb->b);
-
-  switch (dir)
-  {
-    case 'L': retval = CSurface::OnDraw(arrtex, f_AL, dstR); break;
-    case 'R': retval = CSurface::OnDraw(arrtex, f_AR, dstR); break;
-    case 'U': retval = CSurface::OnDraw(arrtex, f_AU, dstR); break;
-    case 'D': retval = CSurface::OnDraw(arrtex, f_AD, dstR); break;
-    default: break;
-  }
-
-  return retval;
-}
-
-bool CAsset::drawStrArrow(const SDL_Rect& dstR, const char& dir, const SDL_Color* rgb)
-{
-  if (!drawArrowFill(dstR, dir, rgb))       return false;
-  if (!drawArrow(dstR, dir, &rgb::black))   return false;
-
-  return true;
-}
-
-bool CAsset::drawStrArrow(const SDL_Rect& dstR, const char& dir, const SDL_Color* rgb, const SDL_Color* str_rgb)
-{
-  if (!drawArrowFill(dstR, dir, rgb))   return false;
-  if (!drawArrow(dstR, dir, str_rgb))   return false;
-
-  return true;
-}
-
-bool CAsset::drawArrow(const SDL_Point* dstPos, const char& dir, const SDL_Color* rgb)
-{
-  SDL_Rect dstR = {dstPos->x, dstPos->y, ARR_SZ, ARR_SZ};
-  return drawArrow(dstR, dir, rgb);
-}
-
-bool CAsset::drawArrowFill(const SDL_Point* dstPos, const char& dir, const SDL_Color* rgb)
-{
-  SDL_Rect dstR = {dstPos->x, dstPos->y, ARR_SZ, ARR_SZ};
-  return drawArrowFill(dstR, dir, rgb);
-}
-
-bool CAsset::drawStrArrow(const SDL_Point* dstPos, const char& dir, const SDL_Color* rgb)
-{
-  SDL_Rect dstR = {dstPos->x, dstPos->y, ARR_SZ, ARR_SZ};
-  return drawStrArrow(dstR, dir, rgb);
-}
-
-bool CAsset::drawStrArrow(const SDL_Point* dstPos, const char& dir, const SDL_Color* rgb, const SDL_Color* str_rgb)
-{
-  SDL_Rect dstR = {dstPos->x, dstPos->y, ARR_SZ, ARR_SZ};
-  return drawStrArrow(dstR, dir, rgb, str_rgb);
-}
+// bool CAsset::drawArrow(const SDL_Rect& dstR, const char& dir, const SDL_Color* rgb) {
+//   using namespace symbols;
+//
+//   bool retval = false;
+//
+//   SDL_SetTextureColorMod(arrtex, rgb->r, rgb->g, rgb->b);
+//
+//   switch (dir)
+//   {
+//     case 'L': retval = CSurface::OnDraw(arrtex, s_AL, dstR); break;
+//     case 'R': retval = CSurface::OnDraw(arrtex, s_AR, dstR); break;
+//     case 'U': retval = CSurface::OnDraw(arrtex, s_AU, dstR); break;
+//     case 'D': retval = CSurface::OnDraw(arrtex, s_AD, dstR); break;
+//     default: break;
+//   }
+//
+//   return retval;
+// }
+//
+// bool CAsset::drawArrowFill(const SDL_Rect& dstR, const char& dir, const SDL_Color* rgb) {
+//   using namespace symbols;
+//
+//   bool retval = false;
+//
+//   SDL_SetTextureColorMod(arrtex, rgb->r, rgb->g, rgb->b);
+//
+//   switch (dir)
+//   {
+//     case 'L': retval = CSurface::OnDraw(arrtex, f_AL, dstR); break;
+//     case 'R': retval = CSurface::OnDraw(arrtex, f_AR, dstR); break;
+//     case 'U': retval = CSurface::OnDraw(arrtex, f_AU, dstR); break;
+//     case 'D': retval = CSurface::OnDraw(arrtex, f_AD, dstR); break;
+//     default: break;
+//   }
+//
+//   return retval;
+// }
+//
+// bool CAsset::drawStrArrow(const SDL_Rect& dstR, const char& dir, const SDL_Color* rgb)
+// {
+//   if (!drawArrowFill(dstR, dir, rgb))       return false;
+//   if (!drawArrow(dstR, dir, &rgb::black))   return false;
+//
+//   return true;
+// }
+//
+// bool CAsset::drawStrArrow(const SDL_Rect& dstR, const char& dir, const SDL_Color* rgb, const SDL_Color* str_rgb)
+// {
+//   if (!drawArrowFill(dstR, dir, rgb))   return false;
+//   if (!drawArrow(dstR, dir, str_rgb))   return false;
+//
+//   return true;
+// }
+//
+// bool CAsset::drawArrow(const SDL_Point* dstPos, const char& dir, const SDL_Color* rgb)
+// {
+//   SDL_Rect dstR = {dstPos->x, dstPos->y, ARR_SZ, ARR_SZ};
+//   return drawArrow(dstR, dir, rgb);
+// }
+//
+// bool CAsset::drawArrowFill(const SDL_Point* dstPos, const char& dir, const SDL_Color* rgb)
+// {
+//   SDL_Rect dstR = {dstPos->x, dstPos->y, ARR_SZ, ARR_SZ};
+//   return drawArrowFill(dstR, dir, rgb);
+// }
+//
+// bool CAsset::drawStrArrow(const SDL_Point* dstPos, const char& dir, const SDL_Color* rgb)
+// {
+//   SDL_Rect dstR = {dstPos->x, dstPos->y, ARR_SZ, ARR_SZ};
+//   return drawStrArrow(dstR, dir, rgb);
+// }
+//
+// bool CAsset::drawStrArrow(const SDL_Point* dstPos, const char& dir, const SDL_Color* rgb, const SDL_Color* str_rgb)
+// {
+//   SDL_Rect dstR = {dstPos->x, dstPos->y, ARR_SZ, ARR_SZ};
+//   return drawStrArrow(dstR, dir, rgb, str_rgb);
+// }
 
 void CAsset::OnCleanup() {
   SDL_DestroyTexture(paltex);
-  SDL_DestroyTexture(arrtex);
+  // SDL_DestroyTexture(arrtex);
   SDL_DestroyTexture(crttex);
 }
 

@@ -14,7 +14,7 @@ class CAsset
 
   private:
     static SDL_Texture* paltex;     // color palette
-    static SDL_Texture* arrtex;     // arrows texture
+    // static SDL_Texture* arrtex;     // arrows texture
     static SDL_Texture* crttex;     // carot texture
 
   public:
@@ -26,7 +26,7 @@ class CAsset
     static void carotReset();
 
   public:
-    static void queryTileDims(SDL_Texture* texture, int& w, int& h);
+    // static void queryTileDims(SDL_Texture* texture, int& w, int& h);
 
   public:
     static bool inWorkspace(const SDL_Point* pos);
@@ -39,7 +39,7 @@ class CAsset
     static SDL_Rect getRect(const SDL_Point* A, const SDL_Point* B);  // this should be deprecated
     static SDL_Rect getRect(const SDL_Point& A, const SDL_Point& B);
     static SDL_Rect getWinCentRect(const unsigned int& w, const unsigned int& h);
-    static SDL_Rect getTileRect(const SDL_Point* A, const SDL_Point* B);
+    // static SDL_Rect getTileRect(const SDL_Point* A, const SDL_Point* B);
     static SDL_Point getPos(int X, int Y);
 
     // returns a SDL_Rect struct with W and H equal to 1, given (X, Y).
@@ -79,15 +79,15 @@ class CAsset
     static bool drawCircle(const int& Xo, const int& Yo, const int& r);
     static bool drawSmCircleMeter(const int& X, const int& Y, const int& val, const int& maxval);
 
-    static bool drawArrow(const SDL_Rect& dstR, const char& dir, const SDL_Color* rgb);
-    static bool drawArrowFill(const SDL_Rect& dstR, const char& dir, const SDL_Color* rgb);
-    static bool drawStrArrow(const SDL_Rect& dstR, const char& dir, const SDL_Color* rgb);
-    static bool drawStrArrow(const SDL_Rect& dstR, const char& dir, const SDL_Color* rgb, const SDL_Color* str_rgb);
+    // static bool drawArrow(const SDL_Rect& dstR, const char& dir, const SDL_Color* rgb);
+    // static bool drawArrowFill(const SDL_Rect& dstR, const char& dir, const SDL_Color* rgb);
+    // static bool drawStrArrow(const SDL_Rect& dstR, const char& dir, const SDL_Color* rgb);
+    // static bool drawStrArrow(const SDL_Rect& dstR, const char& dir, const SDL_Color* rgb, const SDL_Color* str_rgb);
 
-    static bool drawArrow(const SDL_Point* dstPos, const char& dir, const SDL_Color* rgb);
-    static bool drawArrowFill(const SDL_Point* dstPos, const char& dir, const SDL_Color* rgb);
-    static bool drawStrArrow(const SDL_Point* dstPos, const char& dir, const SDL_Color* rgb);
-    static bool drawStrArrow(const SDL_Point* dstPos, const char& dir, const SDL_Color* rgb, const SDL_Color* str_rgb);
+    // static bool drawArrow(const SDL_Point* dstPos, const char& dir, const SDL_Color* rgb);
+    // static bool drawArrowFill(const SDL_Point* dstPos, const char& dir, const SDL_Color* rgb);
+    // static bool drawStrArrow(const SDL_Point* dstPos, const char& dir, const SDL_Color* rgb);
+    // static bool drawStrArrow(const SDL_Point* dstPos, const char& dir, const SDL_Color* rgb, const SDL_Color* str_rgb);
 
 public:
     static void debug_a();

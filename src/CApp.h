@@ -37,7 +37,7 @@ namespace gen {
 class CApp : public CEvent
 {
 private:
-  bool  Running;
+  bool Running;
   SDL_Window* Win_Display;    // Main Window
 
 private:
@@ -61,7 +61,6 @@ public:
 
   // Handles looping calculations, such as for idle animations
   void OnLoop();
-  void OnPause();
 
   // Renders graphics
   void OnRender();

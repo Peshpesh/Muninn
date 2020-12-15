@@ -69,7 +69,7 @@ void CMask::drawToCanvas(SDL_Texture* src_img, const SDL_Rect& srcR, const int& 
   dstP.x = X;
   dstP.y = Y;
 
-  CSurface::OnDraw(src_img, &srcR, &dstP);
+  CSurface::OnDraw(src_img, srcR, dstP);
 
   CSurface::FreeTargetTexture();
 }
@@ -79,7 +79,7 @@ void CMask::drawToCanvas(SDL_Texture* src_img, const SDL_Rect& srcR, const SDL_P
 
   CSurface::SetTargetTexture(canvas, false);
 
-  CSurface::OnDraw(src_img, &srcR, &dstP);
+  CSurface::OnDraw(src_img, srcR, dstP);
 
   CSurface::FreeTargetTexture();
 }
@@ -89,7 +89,7 @@ void CMask::drawToCanvas(SDL_Texture* src_img, const SDL_Rect& srcR, const SDL_R
 
   CSurface::SetTargetTexture(canvas, false);
 
-  CSurface::OnDraw(src_img, &srcR, &dstR);
+  CSurface::OnDraw(src_img, srcR, dstR);
 
   CSurface::FreeTargetTexture();
 }
@@ -103,10 +103,10 @@ void CMask::makeCompound() {
   origin.x = origin.y = 0;
 
   // apply mask
-  CSurface::OnDraw(mask, &maskR, &origin);
+  CSurface::OnDraw(mask, maskR, origin);
 
   // apply canvas
-  CSurface::OnDraw(canvas, &maskR, &origin);
+  CSurface::OnDraw(canvas, maskR, origin);
 
   CSurface::FreeTargetTexture();
 }
@@ -154,10 +154,10 @@ SDL_Texture* CMask::createCompound(SDL_Texture* canvas, SDL_Texture* mask) {
   CSurface::SetTargetTexture(compound, true);
 
   // apply mask
-  CSurface::OnDraw(mask, &srcR, &origin);
+  CSurface::OnDraw(mask, srcR, origin);
 
   // apply canvas
-  CSurface::OnDraw(canvas, &srcR, &origin);
+  CSurface::OnDraw(canvas, srcR, origin);
 
   CSurface::FreeTargetTexture();
 
@@ -191,10 +191,10 @@ SDL_Texture* CMask::createCompound(SDL_Texture* canvas, SDL_Texture* mask,
   CSurface::SetTargetTexture(compound, true);
 
   // apply mask (draw maskR from mask image to origin)
-  CSurface::OnDraw(mask, &maskR, &origin);
+  CSurface::OnDraw(mask, maskR, origin);
 
   // apply canvas (draw srcR from canvas image to dstR)
-  CSurface::OnDraw(canvas, &srcR, &dstR);
+  CSurface::OnDraw(canvas, srcR, dstR);
 
   CSurface::FreeTargetTexture();
 

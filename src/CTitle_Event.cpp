@@ -29,39 +29,39 @@ void CTitle::OnKeyDown(SDL_Keycode sym, Uint16 mod) {
 
 void CTitle::eventTitle(const Gamecon& action) {
   using namespace Title;
-  switch (action) {
-    case CON_DOWN: {
-      if (++pos >= getNumOptions()) pos = 0;
-      else if (pos == decision::DEC_LOAD && !CGameIO::control.getNumSavedGames()) ++pos;
-      break;
-    }
-    case CON_UP: {
-      if (--pos < 0) pos = getNumOptions() - 1;
-      else if (pos == decision::DEC_LOAD && !CGameIO::control.getNumSavedGames()) --pos;
-      break;
-    }
-    case CON_ATTACK: {
-      switch (pos) {
-        case decision::DEC_NEW:     menu_kind = Title::NEW_GAME;  pos = 0; break;
-        case decision::DEC_LOAD:    menu_kind = Title::LOAD_GAME; pos = 0; break;
-        case decision::DEC_OPTIONS: menu_kind = Title::OPTIONS;   pos = 0; break;
-        case decision::DEC_QUIT:    call_terminate = true;        break;
-        default:                    break;
-      }
-      break;
-    }
-    case CON_PAUSE: {
-      switch (pos) {
-        case decision::DEC_NEW:     menu_kind = Title::NEW_GAME;  pos = 0; break;
-        case decision::DEC_LOAD:    menu_kind = Title::LOAD_GAME; pos = 0; break;
-        case decision::DEC_OPTIONS: menu_kind = Title::OPTIONS;   pos = 0; break;
-        case decision::DEC_QUIT:    call_terminate = true;        break;
-        default:                    break;
-      }
-      break;
-    }
-    default: break;
-  }
+  // switch (action) {
+  //   case CON_DOWN: {
+  //     if (++pos >= getNumOptions()) pos = 0;
+  //     else if (pos == decision::DEC_LOAD && !CGameIO::control.getNumSavedGames()) ++pos;
+  //     break;
+  //   }
+  //   case CON_UP: {
+  //     if (--pos < 0) pos = getNumOptions() - 1;
+  //     else if (pos == decision::DEC_LOAD && !CGameIO::control.getNumSavedGames()) --pos;
+  //     break;
+  //   }
+  //   case CON_ATTACK: {
+  //     switch (pos) {
+  //       case decision::DEC_NEW:     menu_kind = Title::NEW_GAME;  pos = 0; break;
+  //       case decision::DEC_LOAD:    menu_kind = Title::LOAD_GAME; pos = 0; break;
+  //       case decision::DEC_OPTIONS: menu_kind = Title::OPTIONS;   pos = 0; break;
+  //       case decision::DEC_QUIT:    call_terminate = true;        break;
+  //       default:                    break;
+  //     }
+  //     break;
+  //   }
+  //   case CON_PAUSE: {
+  //     switch (pos) {
+  //       case decision::DEC_NEW:     menu_kind = Title::NEW_GAME;  pos = 0; break;
+  //       case decision::DEC_LOAD:    menu_kind = Title::LOAD_GAME; pos = 0; break;
+  //       case decision::DEC_OPTIONS: menu_kind = Title::OPTIONS;   pos = 0; break;
+  //       case decision::DEC_QUIT:    call_terminate = true;        break;
+  //       default:                    break;
+  //     }
+  //     break;
+  //   }
+  //   default: break;
+  // }
 }
 
 void CTitle::eventNewGame(const Gamecon& action) {
@@ -174,16 +174,18 @@ bool CTitle::handleDifficulty(const Gamecon& action) {
 }
 
 bool CTitle::handleNewGame() {
-  if (CGameIO::control.newGamedata(pos, Title::pick_game::difficulty::d_list[difficulty])) {
-    CTransition::control.reqTrans(location::DEFAULT, 0, 0);
-    CTransition::control.reqMode(APP_MODE_GAME);
-    return true;
-  } return false;
+  // if (CGameIO::control.newGamedata(pos, Title::pick_game::difficulty::d_list[difficulty])) {
+  //   CTransition::control.reqTrans(location::DEFAULT, 0, 0);
+  //   CTransition::control.reqMode(APP_MODE_GAME);
+  //   return true;
+  // }
+  return false;
 }
 
 bool CTitle::handleLoadGame() {
-  if (CGameIO::control.loadGamedata(pos)) {
-    CMode::changeFlag(APP_MODE_GAME);
-    return true;
-  } return false;
+  // if (CGameIO::control.loadGamedata(pos)) {
+  //   CMode::changeFlag(APP_MODE_GAME);
+  //   return true;
+  // }
+  return false;
 }
