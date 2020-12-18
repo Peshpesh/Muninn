@@ -91,6 +91,7 @@ class CAsset
 
 public:
     static void debug_a();
+    static void test_a(int& ms_sdl, int& ms_orig);
 };
 
 

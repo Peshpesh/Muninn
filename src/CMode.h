@@ -3,9 +3,9 @@
 
 enum app_module
 {
-  APP_MODE_FATAL , // application has suffered a fatal error
-  APP_MODE_TITLE , // application is at the "title screen"
-  APP_MODE_GAME  , // application is "in game"
+  APP_MODE_TITLE  , // application is at title screen
+  APP_MODE_MAIN   , // application's main functionality
+  APP_MODE_OPTION , // application is at options menu
 };
 
 class CMode {

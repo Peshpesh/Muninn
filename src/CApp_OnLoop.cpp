@@ -20,6 +20,8 @@ void CApp::OnLoop() {
   //   //
   // }
 
+  SDL_GetMouseState(&cursor.x, &cursor.y);
+
   CFPS::FPSControl.OnLoop();
 
   if (esc_init && (SDL_GetTicks() - esc_init) >= ESC_THRESH) {

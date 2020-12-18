@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include "CEvent.h"
 #include "Define.h"
-#include "CControls.h"
 
 struct ConfigKey {
   unsigned short sfx_volume;
@@ -47,9 +46,9 @@ public:
 private:
 	void OnKeyDown(SDL_Keycode sym, Uint16 mod);
 private:
-  void handleVolume(unsigned short& vol, const Gamecon& action);
-  void handleAudioOut(const Gamecon& action);
-  void handleDisplay(const Gamecon& action);
+  void handleVolume(unsigned short& vol);
+  void handleAudioOut();
+  void handleDisplay();
 public:
   short getVolume(const Configflag& vol_type);
   bool isStereo();

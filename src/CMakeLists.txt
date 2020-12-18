@@ -25,8 +25,6 @@ ${SRCDIR}/CApp_OnRender.cpp
 ${SRCDIR}/CAsset.cpp
 ${SRCDIR}/CAsset_Ext.cpp
 ${SRCDIR}/CConfig.cpp
-${SRCDIR}/CControls.cpp
-${SRCDIR}/CDialogue.cpp
 ${SRCDIR}/CError.cpp
 ${SRCDIR}/CEvent.cpp
 ${SRCDIR}/CFPS.cpp
@@ -51,8 +49,6 @@ ${SRCDIR}/CAnimation.h
 ${SRCDIR}/CApp.h
 ${SRCDIR}/CAsset.h
 ${SRCDIR}/CConfig.h
-${SRCDIR}/CControls.h
-${SRCDIR}/CDialogue.h
 ${SRCDIR}/CError.h
 ${SRCDIR}/CEvent.h
 ${SRCDIR}/CFPS.h

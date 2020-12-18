@@ -13,6 +13,7 @@ bool CSurface::OnInit(SDL_Window* window)
   {
     return false;
   }
+  SDL_SetRenderDrawColor(Win_Renderer, 255, 255, 255, 255);
   return true;
 }
 
@@ -34,6 +35,10 @@ void CSurface::OnCleanup()
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
+
+SDL_Renderer* CSurface::getRenderer() {
+  return Win_Renderer;
+}
 
 /* Loads an image using a specified renderer.
 * param File     : character string of the file name
@@ -215,4 +220,5 @@ void CSurface::ClearTargetTexture(SDL_Texture* Surf_Src) {
 
 void CSurface::FreeTargetTexture() {
   SDL_SetRenderTarget(Win_Renderer, NULL);
+  SDL_SetRenderDrawColor(Win_Renderer, 255, 255, 255, 255);
 }

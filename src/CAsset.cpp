@@ -60,6 +60,7 @@ void CAsset::paletteBlendmode(const SDL_BlendMode& mode) {
 void CAsset::paletteReset() {
   SDL_SetTextureColorMod(paltex, rgb::white.r, rgb::white.g, rgb::white.b);
   SDL_SetTextureBlendMode(paltex, SDL_BLENDMODE_BLEND);
+  paletteAlpha(MAX_RGBA);
 }
 
 void CAsset::carotBlend(const SDL_Color& rgb) {
@@ -517,4 +518,30 @@ void CAsset::debug_a() {
   if (yi < 0 && y < 0) yi = -yi;
   if (xi > 0 && x + 100 > WWIDTH) xi = -xi;
   if (xi < 0 && x < 0) xi = -xi;
+}
+
+void CAsset::test_a(int& ms_sdl, int& ms_orig) {
+  int i_time;
+  SDL_Renderer* tmp = CSurface::getRenderer();
+  SDL_Rect rec;
+  const SDL_Point* col = &palette::red;
+
+  rec.x = rec.y = 0;
+  rec.w = 100;
+  rec.h = 30;
+  // SDL_Delay(30);
+
+  i_time = SDL_GetTicks();
+  for (int i = 0; i < 30000; i++) {
+    SDL_SetRenderDrawColor(tmp, i % 250, 0, 0, 255);
+    SDL_RenderFillRect(tmp, &rec);
+    SDL_SetRenderDrawColor(tmp, 0, 0, 0, 255);
+  }
+  ms_sdl = SDL_GetTicks() - i_time;
+
+  i_time = SDL_GetTicks();
+  for (int i = 0; i < 30000; i++) {
+    CAsset::drawBoxFill(rec, col);
+  }
+  ms_orig = SDL_GetTicks() - i_time;
 }

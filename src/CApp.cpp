@@ -6,6 +6,8 @@ CApp::CApp() {
 
   Running = true;
 
+  cursor.x = cursor.y = 0;
+
   esc_init = 0;
 }
 

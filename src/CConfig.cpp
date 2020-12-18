@@ -72,47 +72,47 @@ void CConfig::OnEvent(SDL_Event* Event) {
 }
 
 void CConfig::OnKeyDown(SDL_Keycode sym, Uint16 mod) {
-  Gamecon action = CControls::handler.getAction(sym, mod);
+  // Gamecon action = CControls::handler.getAction(sym, mod);
 
-  if (action != CON_NONE) {
+  // if (action != CON_NONE) {
     switch (con_change) {
-      case CONFIG_SFX:      handleVolume(key.sfx_volume, action); break;
-      case CONFIG_BGM:      handleVolume(key.bgm_volume, action); break;
-      case CONFIG_TEX:      handleVolume(key.tex_volume, action); break;
-      case CONFIG_AUDIOOUT: handleAudioOut(action);               break;
-      case CONFIG_DISPLAY:  handleDisplay(action);                break;
+      case CONFIG_SFX:      handleVolume(key.sfx_volume); break;
+      case CONFIG_BGM:      handleVolume(key.bgm_volume); break;
+      case CONFIG_TEX:      handleVolume(key.tex_volume); break;
+      case CONFIG_AUDIOOUT: handleAudioOut();               break;
+      case CONFIG_DISPLAY:  handleDisplay();                break;
       default:              break;
     }
-  }
+  // }
 }
 
-void CConfig::handleVolume(unsigned short& vol, const Gamecon& action) {
-  if ((action == CON_LEFT || action == CON_DOWN) && vol > 0) {
+void CConfig::handleVolume(unsigned short& vol) {
+  // if ((action == CON_LEFT || action == CON_DOWN) && vol > 0) {
     vol--;
-  } else if ((action == CON_RIGHT || action == CON_UP) && vol < MAX_VOLUME) {
+  // } else if ((action == CON_RIGHT || action == CON_UP) && vol < MAX_VOLUME) {
     vol++;
-  } else if (action == CON_ATTACK || action == CON_PAUSE) {
-    con_change = CONFIG_NONE;
+  // } else if (action == CON_ATTACK || action == CON_PAUSE) {
+    // con_change = CONFIG_NONE;
     save();
-  }
+  // }
 }
 
-void CConfig::handleAudioOut(const Gamecon& action) {
-  if (action == CON_LEFT || action == CON_DOWN || action == CON_RIGHT || action == CON_UP) {
+void CConfig::handleAudioOut() {
+  // if (action == CON_LEFT || action == CON_DOWN || action == CON_RIGHT || action == CON_UP) {
     key.stereo = !(key.stereo);
-  } else if (action == CON_ATTACK || action == CON_PAUSE) {
-    con_change = CONFIG_NONE;
+  // } else if (action == CON_ATTACK || action == CON_PAUSE) {
+    // con_change = CONFIG_NONE;
     save();
-  }
+  // }
 }
 
-void CConfig::handleDisplay(const Gamecon& action) {
-  if (action == CON_LEFT || action == CON_DOWN || action == CON_RIGHT || action == CON_UP) {
+void CConfig::handleDisplay() {
+  // if (action == CON_LEFT || action == CON_DOWN || action == CON_RIGHT || action == CON_UP) {
     key.fullscreen = !(key.fullscreen);
-  } else if (action == CON_ATTACK || action == CON_PAUSE) {
-    con_change = CONFIG_NONE;
+  // } else if (action == CON_ATTACK || action == CON_PAUSE) {
+    // con_change = CONFIG_NONE;
     save();
-  }
+  // }
 }
 
 short CConfig::getVolume(const Configflag& vol_type) {

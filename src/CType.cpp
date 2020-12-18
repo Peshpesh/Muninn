@@ -549,6 +549,7 @@ int CType::WriteBox(const int& fontID, char const* message, const short& lin, co
     WriteLine(fontID, currentLine.c_str(), pos);
     pos.y += lineH;
   }
+  return 0;
 }
 
 int CType::getTextHeight(const int& fontID, char const* message, int maxWidth) {

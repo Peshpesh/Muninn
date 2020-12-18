@@ -3,6 +3,7 @@
 
 // Critical dependencies
 #include <SDL.h>
+#include <SDL_syswm.h>
 #include "Define.h"
 
 // Systematic dependencies
@@ -17,7 +18,6 @@
 #include "CUtil.h"
 
 // Mechanical dependencies
-#include "CControls.h"
 #include "CConfig.h"
 
 // Structural dependencies
@@ -38,16 +38,18 @@ class CApp : public CEvent
 {
 private:
   bool Running;
-  SDL_Window* Win_Display;    // Main Window
+  SDL_Window* Win_Display; // Main Window
 
 private:
   int esc_init;
 
 public:
 
+  SDL_Point cursor;
+
   CApp();
 
-  int  OnExecute();
+  int OnExecute();
 
 public:
   // Initializes SDL, main window and renderer, and test/introductory graphics

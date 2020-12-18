@@ -19,6 +19,8 @@ class CSurface
 
   public:
 
+    static SDL_Renderer* getRenderer();
+
     static SDL_Texture* OnLoad(char const* File);
 
     static bool OnDraw(SDL_Texture* Surf_Src, int X, int Y);
