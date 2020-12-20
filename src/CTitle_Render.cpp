@@ -37,14 +37,6 @@ bool CTitle::OnRender(const SDL_Point& p) {
   CType::CenterWrite(t_add,      r_add,      f_def);
   CType::CenterWrite(t_stats,    r_stats,    f_def);
 
-  // switch (menu_kind) {
-  //   case Title::MAIN:       retval = drawMainMenu(); break;
-  //   case Title::NEW_GAME:   retval = drawNewGame();  break;
-  //   case Title::LOAD_GAME:  retval = drawLoadGame(); break;
-  //   case Title::OPTIONS:    retval = drawOptions();  break;
-  //   default: break;
-  // }
-
   // CMask test;
   // int W = 0;
   // CType::getLineDims(FONT_DEFAULT, t_lesson, W);

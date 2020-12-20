@@ -1,47 +1,50 @@
 #ifndef _C_TRANSITION_H_
 #define _C_TRANSITION_H_
 
-#include "CMode.h"
 #include "CAsset.h"
 #include "Define.h"
 
+enum {
+  TRANS_WIPE = 0,
+};
+
 class CTransition {
   CTransition();
+
+private:
+  int init_reset_time;
+  int init_delay_time;
 
 private:
   int fadeout_timer;
   int fadein_timer;
   int delay_timer;
   int last_time;
-  app_module mode;
-  bool switch_mode;
+  int transtype;
 
 public:
-  // int locationID;
-  int X;
-  int Y;
-  bool activated;
-  SDL_Color color;
+  bool okToTrans;
+
+private:
+  const SDL_Point* color;
 
 public:
   static CTransition control;
 
-  void setColor(const SDL_Color& color);
-  // void reqTrans(const int& loc, const int &X, const int &Y);
+  void reqTrans(const int& transtype, const SDL_Point* palcol);
   void reqReset();
-  void reqMode(const app_module& mode);
   bool isActive();
-  app_module getMode();
+
+  void transDone();
 
   void OnLoop();
 
-  bool OnRender();
+  void OnRender();
 
 private:
-  bool wipeout();
-  bool blank();
-  bool wipein();
-  void changeMode();
+  void wipeout();
+  void blank();
+  void wipein();
 };
 
 #endif

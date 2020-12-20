@@ -6,10 +6,18 @@ CMode::CMode() {
   //
 }
 
-void CMode::changeFlag(app_module flag) {
-  handle = flag;
+void CMode::setMode(app_module mode) {
+  handle = mode;
 }
 
-bool CMode::isFlagOn(app_module flag) {
-  return (flag == handle);
+bool CMode::isModeOn(app_module mode) {
+  return (mode == handle);
+}
+
+app_module CMode::getMode() {
+  return handle;
+}
+
+app_module* CMode::getModeptr() {
+  return &handle;
 }

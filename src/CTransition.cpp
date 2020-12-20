@@ -2,57 +2,36 @@
 
 CTransition CTransition::control;
 
-namespace {
-  const short reset_time = 250;  // milliseconds
-  const short delay_time = 300;  // milliseconds
-}
-
 CTransition::CTransition() {
-  activated = false;
+  okToTrans = false;
+  init_reset_time = 250;
+  init_delay_time = 300;
   fadeout_timer = fadein_timer = delay_timer = last_time = 0;
-  // locationID = location::DEFAULT;
-  X = Y = 0;
-  mode = APP_MODE_TITLE;
-  color = rgb::black;
+  color = &palette::red;
+  transtype = TRANS_WIPE;
 }
 
-void CTransition::setColor(const SDL_Color& color) {
-  this->color = color;
-}
+void CTransition::reqTrans(const int& transtype, const SDL_Point* palcol) {
+  if (color) this->color = color;
+  this->transtype = transtype;
 
-// void CTransition::reqTrans(const int& loc, const int &X, const int &Y) {
-//   if (loc < 0 || loc >= location::num) return;
-//
-//   fadeout_timer = fadein_timer = reset_time;
-//   delay_timer = delay_time;
-//   last_time = SDL_GetTicks();
-// 
-//   locationID = loc;
-//   this->X = X;
-//   this->Y = Y;
-// }
+  fadeout_timer = fadein_timer = init_reset_time;
+  delay_timer   = init_delay_time;
+  last_time     = SDL_GetTicks();
+}
 
 void CTransition::reqReset() {
-  fadeout_timer = fadein_timer = reset_time;
-  delay_timer = delay_time;
-  last_time = SDL_GetTicks();
-  // locationID = location::DEFAULT;
-  X = Y = 0;
-}
-
-void CTransition::reqMode(const app_module& mode) {
-  if (!CMode::isFlagOn(mode)) {
-    this->mode = mode;
-    switch_mode = true;
-  }
+  fadeout_timer = fadein_timer = init_reset_time;
+  delay_timer   = init_delay_time;
+  last_time     = SDL_GetTicks();
 }
 
 bool CTransition::isActive() {
   return (fadeout_timer || fadein_timer || delay_timer);
 }
 
-app_module CTransition::getMode() {
-  return mode;
+void CTransition::transDone() {
+  okToTrans = false;
 }
 
 void CTransition::OnLoop() {
@@ -61,14 +40,14 @@ void CTransition::OnLoop() {
     last_time = SDL_GetTicks();
     if (fadeout_timer <= 0) {
       fadeout_timer = 0;
-      activated = true;
-      if (switch_mode) changeMode();
+      okToTrans = true;
     }
   } else if (delay_timer) {
-    if (!activated) {
+    if (!okToTrans) {
       delay_timer -= (SDL_GetTicks() - last_time);
       if (delay_timer < 0) delay_timer = 0;
-    } last_time = SDL_GetTicks();
+    }
+    last_time = SDL_GetTicks();
   } else if (fadein_timer) {
     fadein_timer -= (SDL_GetTicks() - last_time);
     if (fadein_timer < 0) fadein_timer = 0;
@@ -76,38 +55,28 @@ void CTransition::OnLoop() {
   }
 }
 
-bool CTransition::OnRender() {
-  if (fadeout_timer) {
-    return wipeout();
-  } else if (delay_timer) {
-    return blank();
-  } else if (fadein_timer) {
-    return wipein();
-  }
-  return true;
+void CTransition::OnRender() {
+  if (fadeout_timer) wipeout();
+  else if (delay_timer) blank();
+  else if (fadein_timer) wipein();
 }
 
-bool CTransition::wipeout() {
+void CTransition::wipeout() {
   // left-to-right wipe (TO color)
-  int w = ((float)(WWIDTH * (reset_time - fadeout_timer)) / reset_time);
+  int w = ((float)(WWIDTH * (init_reset_time - fadeout_timer)) / init_reset_time);
   SDL_Rect fill = {0, 0, w, WHEIGHT};
-  return CAsset::drawBoxFill(fill, color);
+  CAsset::drawBoxFill(fill, color);
 }
 
-bool CTransition::blank() {
+void CTransition::blank() {
   // blank screen between fades
   SDL_Rect fill = {0, 0, WWIDTH, WHEIGHT};
-  return CAsset::drawBoxFill(fill, color);
+  CAsset::drawBoxFill(fill, color);
 }
 
-bool CTransition::wipein() {
+void CTransition::wipein() {
   // left-to-right wipe (FROM color)
-  int w = ((float)(WWIDTH * fadein_timer) / reset_time);
+  int w = ((float)(WWIDTH * fadein_timer) / init_reset_time);
   SDL_Rect fill = {WWIDTH - w, 0, w, WHEIGHT};
-  return CAsset::drawBoxFill(fill, color);
-}
-
-void CTransition::changeMode() {
-  CMode::changeFlag(mode);
-  switch_mode = false;
+  CAsset::drawBoxFill(fill, color);
 }

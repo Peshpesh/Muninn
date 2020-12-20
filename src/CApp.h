@@ -24,6 +24,7 @@
 // #include "CGameIO.h"
 // #include "CMode.h"
 #include "CTitle.h"
+#include "CVocab.h"
 // #include "CGame.h"
 #include "CTransition.h"
 
@@ -42,6 +43,7 @@ private:
 
 private:
   int esc_init;
+  app_module* active_mode;
 
 public:
 

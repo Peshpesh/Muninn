@@ -5,14 +5,19 @@ void CApp::OnRender() {
 
   CSurface::Clear();
 
-  if (CMode::isFlagOn(APP_MODE_MAIN)) {
-    // CGame::control.OnRender();
-  } else if (CMode::isFlagOn(APP_MODE_TITLE)) {
-    CTitle::control.OnRender(cursor);
+  switch(*active_mode) {
+    case APP_MODE_TITLE: CTitle::control.OnRender(cursor); break;
+    case APP_MODE_LESSON: break;
+    case APP_MODE_VOCAB: CVocab::control.OnRender(cursor); break;
+    case APP_MODE_GRAMMAR: break;
+    case APP_MODE_PRACTICE: break;
+    case APP_MODE_NEW: break;
+    case APP_MODE_STATS: break;
+    case APP_MODE_OPTIONS: break;
   }
 
-  if (!CTransition::control.OnRender()) {
-    // ERROR
+  if (CTransition::control.isActive()) {
+    CTransition::control.OnRender();
   }
 
   if (DEBUG) {
@@ -21,7 +26,7 @@ void CApp::OnRender() {
 
     if(SDL_GetWindowWMInfo(Win_Display,&info)) { /* the call returns true on success */
       /* success */
-      const char *subsystem = "an unknown system!";
+      const char *subsystem = "an unknown system! piss!";
       switch(info.subsystem) {
         case SDL_SYSWM_UNKNOWN:   break;
         case SDL_SYSWM_WINDOWS:   subsystem = "Microsoft Windows(TM)";  break;

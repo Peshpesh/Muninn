@@ -38,19 +38,23 @@ public:
   static CTitle control;
   bool call_terminate;
 
+private:
+  app_module* transMode; // new mode to transition to from title menu
+
 public:
   void OnInit();
 
   void OnEvent(SDL_Event* Event);
 
-  bool OnRender(const SDL_Point& p);
-
   void OnLoop();
+
+  bool OnRender(const SDL_Point& p);
 
   void OnCleanup();
 
 private:
   void OnKeyDown(SDL_Keycode sym, Uint16 mod);
+  void OnLButtonDown(int mX, int mY);
 };
 
 namespace title {

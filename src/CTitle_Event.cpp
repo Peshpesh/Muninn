@@ -26,3 +26,31 @@ void CTitle::OnKeyDown(SDL_Keycode sym, Uint16 mod) {
   //   }
   // }
 }
+
+void CTitle::OnLButtonDown(int mX, int mY) {
+  using namespace title;
+
+  const SDL_Point p = {mX, mY};
+
+  if (SDL_PointInRect(&p, &r_lesson)) {
+    CMode::setMode(APP_MODE_LESSON);
+  }
+  else if (SDL_PointInRect(&p, &r_vocab)) {
+    transMode = new app_module;
+    *transMode = APP_MODE_VOCAB;
+    // CMode::setMode(APP_MODE_VOCAB);
+    CTransition::control.reqTrans(TRANS_WIPE, &palette::red);
+  }
+  else if (SDL_PointInRect(&p, &r_grammar)) {
+    CMode::setMode(APP_MODE_GRAMMAR);
+  }
+  else if (SDL_PointInRect(&p, &r_practice)) {
+    CMode::setMode(APP_MODE_PRACTICE);
+  }
+  else if (SDL_PointInRect(&p, &r_add)) {
+    CMode::setMode(APP_MODE_NEW);
+  }
+  else if (SDL_PointInRect(&p, &r_stats)) {
+    CMode::setMode(APP_MODE_STATS);
+  }
+}

@@ -40,5 +40,7 @@ bool CApp::OnInit() {
   //   return false;
   // }
 
+  active_mode = CMode::getModeptr();
+
   return true;
 }

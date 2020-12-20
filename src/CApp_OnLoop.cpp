@@ -20,6 +20,23 @@ void CApp::OnLoop() {
   //   //
   // }
 
+  switch(*active_mode) {
+    case APP_MODE_TITLE: CTitle::control.OnLoop(); break;
+    case APP_MODE_LESSON: break;
+    case APP_MODE_VOCAB: break;
+    case APP_MODE_GRAMMAR: break;
+    case APP_MODE_PRACTICE: break;
+    case APP_MODE_NEW: break;
+    case APP_MODE_STATS: break;
+    case APP_MODE_OPTIONS: break;
+  }
+
+  if (CTransition::control.isActive()) {
+    CTransition::control.OnLoop();
+  }
+
+
+
   SDL_GetMouseState(&cursor.x, &cursor.y);
 
   CFPS::FPSControl.OnLoop();

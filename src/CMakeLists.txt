@@ -37,11 +37,16 @@ ${SRCDIR}/CSurface.cpp
 ${SRCDIR}/CTitle.cpp
 ${SRCDIR}/CTitle_Event.cpp
 ${SRCDIR}/CTitle_ext.cpp
+${SRCDIR}/CTitle_Loop.cpp
 ${SRCDIR}/CTitle_Render.cpp
 ${SRCDIR}/CTransition.cpp
 ${SRCDIR}/CType.cpp
 ${SRCDIR}/CType_Def.cpp
 ${SRCDIR}/CUtil.cpp
+${SRCDIR}/CVocab_Event.cpp
+${SRCDIR}/CVocab_ext.cpp
+${SRCDIR}/CVocab_Render.cpp
+${SRCDIR}/CVocab.cpp
 )
 
 set(HEADER_FILES
@@ -62,6 +67,7 @@ ${SRCDIR}/CTitle.h
 ${SRCDIR}/CTransition.h
 ${SRCDIR}/CType.h
 ${SRCDIR}/CUtil.h
+${SRCDIR}/CVocab.h
 ${SRCDIR}/Define.h
 )
 
