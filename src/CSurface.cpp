@@ -215,7 +215,7 @@ void CSurface::ClearTargetTexture(SDL_Texture* Surf_Src) {
   SDL_SetRenderTarget(Win_Renderer, Surf_Src);
   SDL_SetRenderDrawColor(Win_Renderer, 0, 0, 0, 0);
   Clear();
-  SDL_SetRenderTarget(Win_Renderer, NULL);
+  FreeTargetTexture();
 }
 
 void CSurface::FreeTargetTexture() {

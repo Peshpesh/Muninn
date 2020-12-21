@@ -35,6 +35,11 @@ bool CApp::OnInit() {
     return false;
   }
 
+  if (!CTransition::control.OnInit()) {
+    CError::handler.ReportErr("FATAL => CTransition failed to initialize.");
+    return false;
+  }
+
   // if (!CGameIO::control.init()) {
   //   CError::handler.ReportErr("FATAL => CGameIO failed to initialize.");
   //   return false;

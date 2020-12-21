@@ -24,6 +24,7 @@ ${SRCDIR}/CApp_OnLoop.cpp
 ${SRCDIR}/CApp_OnRender.cpp
 ${SRCDIR}/CAsset.cpp
 ${SRCDIR}/CAsset_Ext.cpp
+${SRCDIR}/CCanvas.cpp
 ${SRCDIR}/CConfig.cpp
 ${SRCDIR}/CError.cpp
 ${SRCDIR}/CEvent.cpp
@@ -53,6 +54,7 @@ set(HEADER_FILES
 ${SRCDIR}/CAnimation.h
 ${SRCDIR}/CApp.h
 ${SRCDIR}/CAsset.h
+${SRCDIR}/CCanvas.h
 ${SRCDIR}/CConfig.h
 ${SRCDIR}/CError.h
 ${SRCDIR}/CEvent.h

@@ -39,7 +39,7 @@ void CTitle::OnLButtonDown(int mX, int mY) {
     transMode = new app_module;
     *transMode = APP_MODE_VOCAB;
     // CMode::setMode(APP_MODE_VOCAB);
-    CTransition::control.reqTrans(TRANS_WIPE, &palette::red);
+    CTransition::control.reqTrans(TRANS_WIPE, &palette::yellow);
   }
   else if (SDL_PointInRect(&p, &r_grammar)) {
     CMode::setMode(APP_MODE_GRAMMAR);

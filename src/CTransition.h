@@ -1,6 +1,7 @@
 #ifndef _C_TRANSITION_H_
 #define _C_TRANSITION_H_
 
+#include "CCanvas.h"
 #include "CAsset.h"
 #include "Define.h"
 
@@ -10,6 +11,9 @@ enum {
 
 class CTransition {
   CTransition();
+
+private:
+  CCanvas transMask; // a working canvas texture for complex transitions
 
 private:
   int init_reset_time;
@@ -31,6 +35,8 @@ private:
 public:
   static CTransition control;
 
+  bool OnInit();
+
   void reqTrans(const int& transtype, const SDL_Point* palcol);
   void reqReset();
   bool isActive();
@@ -42,9 +48,11 @@ public:
   void OnRender();
 
 private:
-  void wipeout();
   void blank();
+  void wipeout();
   void wipein();
+  void checkerout();
+  void checkerin();
 };
 
 #endif

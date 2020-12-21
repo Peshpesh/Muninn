@@ -21,6 +21,4 @@
 /*                      to terminate the application                          */
 #define ESC_THRESH 1500 // milliseconds
 
-
-
 #endif

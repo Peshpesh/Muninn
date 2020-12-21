@@ -216,6 +216,15 @@ bool CAsset::drawBoxFill(const SDL_Point* A, const SDL_Point* B, const SDL_Point
   return drawBoxFill(dstR, color);
 }
 
+bool CAsset::drawRotBoxFill(const SDL_Rect& box, const SDL_Point* color, const double& r) {
+  if (color == NULL) return false;
+
+  SDL_Rect srcR = getPixel(color);
+  if (!CSurface::OnDraw(paltex, srcR, box, r)) return false;
+
+  return true;
+}
+
 bool CAsset::drawStrBox(const SDL_Rect& box, const int& str_w, const SDL_Point* color) {
   if (!drawBoxFill(box, color)) return false;
   if (!drawBox(box, &palette::black, str_w)) return false;
