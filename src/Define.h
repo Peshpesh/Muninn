@@ -20,5 +20,6 @@
 /* "Escape Threshold":  amount of time the user has to hold down the ESC key  */
 /*                      to terminate the application                          */
 #define ESC_THRESH 1500 // milliseconds
+#define PI 3.14159265
 
 #endif

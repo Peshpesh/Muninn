@@ -11,7 +11,7 @@ void CApp::OnRender() {
     case APP_MODE_VOCAB: CVocab::control.OnRender(cursor); break;
     case APP_MODE_GRAMMAR: break;
     case APP_MODE_PRACTICE: break;
-    case APP_MODE_NEW: break;
+    case APP_MODE_NEW: CCreate::control.OnRender(); break;
     case APP_MODE_STATS: break;
     case APP_MODE_OPTIONS: break;
   }

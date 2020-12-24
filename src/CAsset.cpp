@@ -225,6 +225,15 @@ bool CAsset::drawRotBoxFill(const SDL_Rect& box, const SDL_Point* color, const d
   return true;
 }
 
+bool CAsset::drawRotBoxFill(const SDL_Rect& box, const SDL_Point* color, const double& r, const SDL_Point* a) {
+  if (color == NULL) return false;
+
+  SDL_Rect srcR = getPixel(color);
+  if (!CSurface::OnDraw(paltex, srcR, box, r, a)) return false;
+
+  return true;
+}
+
 bool CAsset::drawStrBox(const SDL_Rect& box, const int& str_w, const SDL_Point* color) {
   if (!drawBoxFill(box, color)) return false;
   if (!drawBox(box, &palette::black, str_w)) return false;
@@ -298,6 +307,14 @@ bool CAsset::drawRotBoxFill(const SDL_Rect& box, const SDL_Color& color, const d
   return true;
 }
 
+bool CAsset::drawRotBoxFill(const SDL_Rect& box, const SDL_Color& color, const double& r, const SDL_Point* a) {
+  paletteBlend(color);
+  SDL_Rect srcR = getPixel(&palette::white);
+  if (!CSurface::OnDraw(paltex, srcR, box, r, a)) return false;
+  paletteReset();
+  return true;
+}
+
 bool CAsset::drawStrBox(const SDL_Rect& box, const int& str_w, const SDL_Color& color) {
   if (!drawBoxFill(box, color)) return false;
   if (!drawBox(box, &palette::black, str_w)) return false;
@@ -338,19 +355,19 @@ bool CAsset::drawSmCircleMeter(const int& X, const int& Y, const int& val, const
     else carotBlend(rgb::light_green);
 
     CSurface::OnDraw(crttex, sm_half_l, dstR);
-    CSurface::OnDraw(crttex, sm_half_l, dstR, &anch, 180.0);
+    CSurface::OnDraw(crttex, sm_half_l, dstR, 180.0, &anch);
 
     carotBlend(rgb::black);
     dstR.w = sm_case.w;
     CSurface::OnDraw(crttex, sm_case, dstR);
   } else if (frac >= 0.5f) {
     carotBlend(rgb::dark_blue);
-    CSurface::OnDraw(crttex, sm_half_l, dstR, &anch, 180.0);
+    CSurface::OnDraw(crttex, sm_half_l, dstR, 180.0, &anch);
 
     carotBlend(rgb::light_green);
     double rot = 360.0 - (((frac - 0.5f) / 0.5f) * 180.0);
     CSurface::OnDraw(crttex, sm_half_l, dstR);
-    CSurface::OnDraw(crttex, sm_half_l, dstR, &anch, rot);
+    CSurface::OnDraw(crttex, sm_half_l, dstR, rot, &anch);
 
     carotBlend(rgb::black);
     dstR.w = sm_case.w;
@@ -360,9 +377,9 @@ bool CAsset::drawSmCircleMeter(const int& X, const int& Y, const int& val, const
     CSurface::OnDraw(crttex, sm_half_l, dstR);
 
     carotBlend(rgb::dark_blue);
-    CSurface::OnDraw(crttex, sm_half_l, dstR, &anch, 180.0);
+    CSurface::OnDraw(crttex, sm_half_l, dstR, 180.0, &anch);
     double rot = 360.0 * (1.0 - frac);
-    CSurface::OnDraw(crttex, sm_half_l, dstR, &anch, rot);
+    CSurface::OnDraw(crttex, sm_half_l, dstR, rot, &anch);
 
     carotBlend(rgb::black);
     dstR.w = sm_case.w;
@@ -379,13 +396,13 @@ bool CAsset::drawCircle(const int& Xo, const int& Yo, const int& r) {
   int err = dx - (r << 1);
 
   while (x >= y) {
-      // drawBoxFill({Xo - x, Yo + y, 2*x, 1}, rgb::cyan);
-      //
-      // drawBoxFill({Xo - x, Yo - y, 2*x, 1}, rgb::cyan);
-      //
-      // drawBoxFill({Xo - y, Yo + x, 2*y, 1}, rgb::cyan);
-      //
-      // drawBoxFill({Xo - y, Yo - x, 2*y, 1}, rgb::cyan);
+      drawBoxFill({Xo - x, Yo + y, 2*x, 1}, rgb::red);
+
+      drawBoxFill({Xo - x, Yo - y, 2*x, 1}, rgb::red);
+
+      drawBoxFill({Xo - y, Yo + x, 2*y, 1}, rgb::red);
+
+      drawBoxFill({Xo - y, Yo - x, 2*y, 1}, rgb::red);
 
       // drawBoxFill({Xo + x, Yo + y, 1, 1}, rgb::red);
       // drawBoxFill({Xo + y, Yo + x, 1, 1}, rgb::red);

@@ -40,6 +40,11 @@ bool CApp::OnInit() {
     return false;
   }
 
+  if (!CCreate::control.OnInit()) {
+    CError::handler.ReportErr("FATAL => CCreate failed to initialize.");
+    return false;
+  }
+
   // if (!CGameIO::control.init()) {
   //   CError::handler.ReportErr("FATAL => CGameIO failed to initialize.");
   //   return false;

@@ -1,6 +1,8 @@
 #ifndef _C_VOCAB_H_
 #define _C_VOCAB_H_
 
+#include <string>
+
 #include "CMode.h"
 #include "CEvent.h"
 #include "CAsset.h"

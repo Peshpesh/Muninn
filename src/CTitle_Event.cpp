@@ -33,24 +33,33 @@ void CTitle::OnLButtonDown(int mX, int mY) {
   const SDL_Point p = {mX, mY};
 
   if (SDL_PointInRect(&p, &r_lesson)) {
-    CMode::setMode(APP_MODE_LESSON);
+    transMode = new app_module;
+    *transMode = APP_MODE_LESSON;
+    CTransition::control.reqTrans(TRANS_WIPE, c_lesson);
   }
   else if (SDL_PointInRect(&p, &r_vocab)) {
     transMode = new app_module;
     *transMode = APP_MODE_VOCAB;
-    // CMode::setMode(APP_MODE_VOCAB);
-    CTransition::control.reqTrans(TRANS_WIPE, &palette::yellow);
+    CTransition::control.reqTrans(TRANS_WIPE, c_vocab);
   }
   else if (SDL_PointInRect(&p, &r_grammar)) {
-    CMode::setMode(APP_MODE_GRAMMAR);
+    transMode = new app_module;
+    *transMode = APP_MODE_GRAMMAR;
+    CTransition::control.reqTrans(TRANS_WIPE, c_grammar);
   }
   else if (SDL_PointInRect(&p, &r_practice)) {
-    CMode::setMode(APP_MODE_PRACTICE);
+    transMode = new app_module;
+    *transMode = APP_MODE_PRACTICE;
+    CTransition::control.reqTrans(TRANS_WIPE, c_practice);
   }
   else if (SDL_PointInRect(&p, &r_add)) {
-    CMode::setMode(APP_MODE_NEW);
+    transMode = new app_module;
+    *transMode = APP_MODE_NEW;
+    CTransition::control.reqTrans(TRANS_WIPE, c_add);
   }
   else if (SDL_PointInRect(&p, &r_stats)) {
-    CMode::setMode(APP_MODE_STATS);
+    transMode = new app_module;
+    *transMode = APP_MODE_STATS;
+    CTransition::control.reqTrans(TRANS_WIPE, c_stats);
   }
 }

@@ -59,14 +59,17 @@ class CSurface
 
 		static bool OnDraw(SDL_Texture* Surf_Src, const SDL_Rect& srcrect, const SDL_Point& dstpos, const double& r);
 
-		static bool OnDraw(SDL_Texture* Surf_Src, const SDL_Rect& srcrect, const SDL_Rect& dstrect, const SDL_Point* a, const double& r);
+		static bool OnDraw(SDL_Texture* Surf_Src, const SDL_Rect& srcrect, const SDL_Rect& dstrect, const double& r, const SDL_Point* a);
 
-		static bool OnDraw(SDL_Texture* Surf_Src, const SDL_Rect& srcrect, const SDL_Point& dstpos, const SDL_Point* a, const double& r);
+		static bool OnDraw(SDL_Texture* Surf_Src, const SDL_Rect& srcrect, const SDL_Point& dstpos, const double& r, const SDL_Point* a);
 
     static SDL_Texture* CreateTargetTexture(const int& W, const int& H);
     static void SetTargetTexture(SDL_Texture* Surf_Src, bool clear);
     static void ClearTargetTexture(SDL_Texture* Surf_Src);
     static void FreeTargetTexture();
+
+    // export an SDL_texture to PNG
+    static void SaveTexture(SDL_Texture* Surf_Src, char const* fname);
 };
 
 #endif

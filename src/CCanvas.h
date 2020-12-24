@@ -21,7 +21,7 @@ public:
   void beginDrawing();
 
   /* disable the canvas as a rendering target */
-  void stopDrawing();
+  static void stopDrawing();
 
   /* enable rendering to the canvas, draw onto it, and then disable rendering */
   void drawToCanvas(SDL_Texture* src_img, const SDL_Rect& srcR, const int& X, const int& Y);

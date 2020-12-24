@@ -162,14 +162,14 @@ bool CSurface::OnDraw(SDL_Texture* Surf_Src, const SDL_Rect& srcrect, const SDL_
 	return true;
 }
 
-bool CSurface::OnDraw(SDL_Texture* Surf_Src, const SDL_Rect& srcrect, const SDL_Rect& dstrect, const SDL_Point* a, const double& r) {
+bool CSurface::OnDraw(SDL_Texture* Surf_Src, const SDL_Rect& srcrect, const SDL_Rect& dstrect, const double& r, const SDL_Point* a) {
 	if (Surf_Src == NULL) return false;
 
 	SDL_RenderCopyEx(Win_Renderer, Surf_Src, &srcrect, &dstrect, r, a, SDL_FLIP_NONE);
 	return true;
 }
 
-bool CSurface::OnDraw(SDL_Texture* Surf_Src, const SDL_Rect& srcrect, const SDL_Point& dstpos, const SDL_Point* a, const double& r) {
+bool CSurface::OnDraw(SDL_Texture* Surf_Src, const SDL_Rect& srcrect, const SDL_Point& dstpos, const double& r, const SDL_Point* a) {
 	if (Surf_Src == NULL) return false;
 
 	SDL_Rect DestR = {dstpos.x, dstpos.y, srcrect.w, srcrect.h};
@@ -221,4 +221,33 @@ void CSurface::ClearTargetTexture(SDL_Texture* Surf_Src) {
 void CSurface::FreeTargetTexture() {
   SDL_SetRenderTarget(Win_Renderer, NULL);
   SDL_SetRenderDrawColor(Win_Renderer, 255, 255, 255, 255);
+}
+
+void CSurface::SaveTexture(SDL_Texture* Surf_Src, char const* fname) {
+  if (Surf_Src == NULL) return;
+
+  SDL_SetRenderTarget(Win_Renderer, Surf_Src);
+
+  Uint32 rmask, gmask, bmask, amask;
+
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+  rmask = 0xff000000;
+  gmask = 0x00ff0000;
+  bmask = 0x0000ff00;
+  amask = 0x000000ff;
+#else
+  rmask = 0x000000ff;
+  gmask = 0x0000ff00;
+  bmask = 0x00ff0000;
+  amask = 0xff000000;
+#endif
+
+  int W, H;
+  SDL_QueryTexture(Surf_Src, NULL, NULL, &W, &H);
+  SDL_Surface* surface = SDL_CreateRGBSurface(0, W, H, 32, rmask, gmask, bmask, amask);
+  SDL_RenderReadPixels(Win_Renderer, NULL, surface->format->format, surface->pixels, surface->pitch);
+  IMG_SavePNG(surface, fname);
+  SDL_FreeSurface(surface);
+
+  SDL_SetRenderTarget(Win_Renderer, NULL);
 }

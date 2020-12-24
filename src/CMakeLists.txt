@@ -26,6 +26,8 @@ ${SRCDIR}/CAsset.cpp
 ${SRCDIR}/CAsset_Ext.cpp
 ${SRCDIR}/CCanvas.cpp
 ${SRCDIR}/CConfig.cpp
+${SRCDIR}/CCreate.cpp
+${SRCDIR}/CCreate_ext.cpp
 ${SRCDIR}/CError.cpp
 ${SRCDIR}/CEvent.cpp
 ${SRCDIR}/CFPS.cpp
@@ -48,6 +50,7 @@ ${SRCDIR}/CVocab_Event.cpp
 ${SRCDIR}/CVocab_ext.cpp
 ${SRCDIR}/CVocab_Render.cpp
 ${SRCDIR}/CVocab.cpp
+${SRCDIR}/CVocabcard.cpp
 )
 
 set(HEADER_FILES
@@ -56,6 +59,7 @@ ${SRCDIR}/CApp.h
 ${SRCDIR}/CAsset.h
 ${SRCDIR}/CCanvas.h
 ${SRCDIR}/CConfig.h
+${SRCDIR}/CCreate.h
 ${SRCDIR}/CError.h
 ${SRCDIR}/CEvent.h
 ${SRCDIR}/CFPS.h
@@ -70,6 +74,7 @@ ${SRCDIR}/CTransition.h
 ${SRCDIR}/CType.h
 ${SRCDIR}/CUtil.h
 ${SRCDIR}/CVocab.h
+${SRCDIR}/CVocabcard.h
 ${SRCDIR}/Define.h
 )
 

@@ -25,6 +25,7 @@
 // #include "CMode.h"
 #include "CTitle.h"
 #include "CVocab.h"
+#include "CCreate.h"
 // #include "CGame.h"
 #include "CTransition.h"
 
