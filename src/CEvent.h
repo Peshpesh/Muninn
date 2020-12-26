@@ -19,6 +19,8 @@ public:
 
   virtual void OnKeyUp(SDL_Keycode sym, Uint16 mod);
 
+  virtual void OnTextInput(char const* text);
+
   virtual void OnMouseFocus();
 
   virtual void OnMouseBlur();

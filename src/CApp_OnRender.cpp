@@ -49,11 +49,11 @@ void CApp::OnRender() {
 #endif
       }
 
-      SDL_Log("This program is running SDL version %d.%d.%d on %s",
-              (int)info.version.major,
-              (int)info.version.minor,
-              (int)info.version.patch,
-              subsystem);
+      // SDL_Log("This program is running SDL version %d.%d.%d on %s",
+      //         (int)info.version.major,
+      //         (int)info.version.minor,
+      //         (int)info.version.patch,
+      //         subsystem);
 
       SDL_version compiled, linked;
       SDL_VERSION(&compiled);

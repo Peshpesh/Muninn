@@ -4,7 +4,19 @@ bool CApp::OnInit() {
   CError::handler.OnInit();
 
   if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-    CError::handler.ReportSDLErr("FATAL => SDL_Init failed");
+    CError::handler.ReportSDLErr("FATAL => SDL_Init failed.");
+    return false;
+  }
+
+  if ( !(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) ) {
+    CError::handler.ReportErr("FATAL => IMG_Init failed.");
+    return false;
+  }
+
+  if (TTF_Init() == -1) {
+    // SDL_Delay(10000);
+    // printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+    CError::handler.ReportErr("FATAL => TTF_Init failed.");
     return false;
   }
 

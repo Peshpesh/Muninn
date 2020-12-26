@@ -43,6 +43,10 @@ void CEvent::OnEvent(SDL_Event* Event) {
       OnKeyUp(Event->key.keysym.sym, Event->key.keysym.mod);
       break;
     }
+    case SDL_TEXTINPUT: {
+      OnTextInput(Event->text.text);
+      break;
+    }
     case SDL_MOUSEMOTION: {
       OnMouseMove(Event->motion.x, Event->motion.y, Event->motion.xrel, Event->motion.yrel, (Event->motion.state&SDL_BUTTON(SDL_BUTTON_LEFT)) != 0, (Event->motion.state&SDL_BUTTON(SDL_BUTTON_RIGHT)) != 0, (Event->motion.state&SDL_BUTTON(SDL_BUTTON_MIDDLE)) != 0);
       break;
@@ -138,6 +142,10 @@ void CEvent::OnKeyDown(SDL_Keycode sym, Uint16 mod) {
 }
 
 void CEvent::OnKeyUp(SDL_Keycode sym, Uint16 mod) {
+  //
+}
+
+void CEvent::OnTextInput(char const* text) {
   //
 }
 
