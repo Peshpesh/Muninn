@@ -21,6 +21,8 @@ public:
 
   virtual void OnTextInput(char const* text);
 
+  virtual void OnTextEditing(char const* text, Sint32 start, Sint32 length);
+
   virtual void OnMouseFocus();
 
   virtual void OnMouseBlur();
