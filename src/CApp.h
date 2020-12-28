@@ -16,6 +16,7 @@
 #include "CAsset.h"
 #include "CType.h"
 #include "CUtil.h"
+#include "CText.h"
 
 // Mechanical dependencies
 #include "CConfig.h"

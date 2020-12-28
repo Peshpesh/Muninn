@@ -38,6 +38,7 @@ ${SRCDIR}/CMask.cpp
 ${SRCDIR}/CMode.cpp
 ${SRCDIR}/CSound.cpp
 ${SRCDIR}/CSurface.cpp
+${SRCDIR}/CText.cpp
 ${SRCDIR}/CTitle.cpp
 ${SRCDIR}/CTitle_Event.cpp
 ${SRCDIR}/CTitle_ext.cpp
@@ -70,6 +71,7 @@ ${SRCDIR}/CMask.h
 ${SRCDIR}/CMode.h
 ${SRCDIR}/CSound.h
 ${SRCDIR}/CSurface.h
+${SRCDIR}/CText.h
 ${SRCDIR}/CTitle.h
 ${SRCDIR}/CTransition.h
 ${SRCDIR}/CType.h

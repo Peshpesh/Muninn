@@ -42,6 +42,11 @@ bool CApp::OnInit() {
     return false;
   }
 
+  if (!CText::OnInit()) {
+    CError::handler.ReportErr("FATAL => CText failed to initialize.");
+    return false;
+  }
+
   if (!CType::control.OnInit()) {
     CError::handler.ReportErr("FATAL => CType failed to initialize.");
     return false;

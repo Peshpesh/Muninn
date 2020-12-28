@@ -3,11 +3,13 @@
 CCreate CCreate::control;
 
 CCreate::CCreate() {
-  bigfont = NULL;
-  smolfont = NULL;
-
-  candidatetexture = NULL;
+  // candidatetexture = NULL;
   write_target = 0;
+  update_target = false;
+
+  phrasefont = JP_DEFAULT_LORGE;
+  syllabaryfont = JP_DEFAULT_MID;
+  definefont = LA_DEFAULT_SMOL;
 
   phraseR.x = createcard::phrase_entry.x;
   phraseR.y = createcard::phrase_entry.y;
@@ -31,12 +33,6 @@ bool CCreate::OnInit() {
   if (!syllabarycanvas.initCanvas(syllab_entry.w, syllab_entry.h)) return false;
   if (!definecanvas.initCanvas(define_entry.w, define_entry.h)) return false;
 
-  // font = TTF_OpenFont("yumin.ttf", 64);
-  bigfont = TTF_OpenFont("msgothic.ttc", 96);
-  if (bigfont == NULL) return false;
-  smolfont = TTF_OpenFont("msgothic.ttc", 32);
-  if (smolfont == NULL) return false;
-
   phrasetext.push_back("");
   syllabarytext.push_back("");
   definetext.push_back("");
@@ -52,126 +48,100 @@ void CCreate::OnEvent(SDL_Event* Event) {
 
 void CCreate::OnKeyDown(SDL_Keycode sym, Uint16 mod) {
   switch (sym) {
+    case SDLK_BACKSPACE: {
+      if (candidatetext.empty()) {
+        // note: I still don't really get how the binary stuff works
+        std::vector<std::string> *strptr = NULL;
+        switch (write_target) {
+          case createcard::W_PHRASE: strptr = &phrasetext; break;
+          case createcard::W_SYLLAB: strptr = &syllabarytext; break;
+          case createcard::W_DEFINE: strptr = &definetext; break;
+        }
+
+        if (strptr != NULL) {
+          int idx = (*strptr).size() - 1;  // index of last string in vector
+          int textlen = (*strptr)[idx].size();  // length of last string
+          while (true) {
+            if (textlen == 0) break;
+            if (((*strptr)[idx][textlen-1] & 0x80) == 0x00)
+            {
+              /* One byte */
+              (*strptr)[idx].erase((*strptr)[idx].end()-1);
+              break;
+            }
+            if (((*strptr)[idx][textlen-1] & 0xC0) == 0x80)
+            {
+              /* Byte from the multibyte sequence */
+              (*strptr)[idx].erase((*strptr)[idx].end()-1);
+              textlen--;
+            }
+            if (((*strptr)[idx][textlen-1] & 0xC0) == 0xC0)
+            {
+              /* First byte of multibyte sequence */
+              (*strptr)[idx].erase((*strptr)[idx].end()-1);
+              break;
+            }
+          }
+          // remove the string from the vector if it's now empty and not the only string
+          if (idx != 0 && (*strptr)[idx].empty()) {
+            (*strptr).erase((*strptr).end()-1);
+          }
+        }
+      }
+      break;
+    }
     default: break;
   }
 }
 
 void CCreate::OnTextInput(char const* text) {
-  SDL_Color tmp_color = {0,0,0,255};
-  SDL_Surface* tmp_surf = NULL;
+  using namespace createcard;
+
+  update_target = true;
 
   switch (write_target) {
-    case createcard::W_PHRASE: {
-      {
-        // check if the last line is getting too long
-        int line = phrasetext.size() - 1;
-        std::string tmpstr = phrasetext[line] + text;
-        int w = 0;
-        TTF_SizeUTF8(bigfont, tmpstr.c_str(), &w, NULL);
-        if (w > createcard::phrase_entry.w) {
-          // last line is too long; start a new one
-          phrasetext.push_back(text);
-        } else {
-          // last line is not too long; append text to it
-          phrasetext[line] += text;
-        }
-      }
-
-      phrasecanvas.clearCanvas();
-      int line_h = TTF_FontLineSkip(bigfont);
-      for (int i = 0; i < phrasetext.size(); i++) {
-        tmp_surf = TTF_RenderUTF8_Blended(bigfont, phrasetext[i].c_str(), tmp_color);
-        if (tmp_surf) {
-          SDL_Texture* tmp_text = SDL_CreateTextureFromSurface(CSurface::getRenderer(), tmp_surf);
-          SDL_FreeSurface(tmp_surf);
-          if (tmp_text) {
-            SDL_QueryTexture(tmp_text, NULL, NULL, &phraseR.w, &phraseR.h);
-            phrasecanvas.beginDrawing();
-            SDL_Rect srcR = phraseR;
-            srcR.x = srcR.y = 0;
-            SDL_Rect dstR = srcR;
-            dstR.y = i * line_h;
-            CSurface::OnDraw(tmp_text, srcR, dstR);
-            phrasecanvas.stopDrawing();
-            SDL_DestroyTexture(tmp_text);
-          }
-        }
+    case W_PHRASE: {
+      // check if the last line is getting too long
+      int line = phrasetext.size() - 1;
+      std::string tmpstr = phrasetext[line] + text;
+      int w = 0;
+      TTF_SizeUTF8(CText::getFont(phrasefont), tmpstr.c_str(), &w, NULL);
+      if (w > phrase_entry.w) {
+        // last line is too long; start a new one
+        phrasetext.push_back(text);
+      } else {
+        // last line is not too long; append text to it
+        phrasetext[line] += text;
       }
       break;
     }
-    case createcard::W_SYLLAB: {
-      {
-        // check if the last line is getting too long
-        int line = syllabarytext.size() - 1;
-        std::string tmpstr = syllabarytext[line] + text;
-        int w = 0;
-        TTF_SizeUTF8(smolfont, tmpstr.c_str(), &w, NULL);
-        if (w > createcard::syllab_entry.w) {
-          // last line is too long; start a new one
-          syllabarytext.push_back(text);
-        } else {
-          // last line is not too long; append text to it
-          syllabarytext[line] += text;
-        }
-      }
-
-      syllabarycanvas.clearCanvas();
-      int line_h = TTF_FontLineSkip(smolfont);
-      for (int i = 0; i < syllabarytext.size(); i++) {
-        tmp_surf = TTF_RenderUTF8_Blended(smolfont, syllabarytext[i].c_str(), tmp_color);
-        if (tmp_surf) {
-          SDL_Texture* tmp_text = SDL_CreateTextureFromSurface(CSurface::getRenderer(), tmp_surf);
-          SDL_FreeSurface(tmp_surf);
-          if (tmp_text) {
-            SDL_QueryTexture(tmp_text, NULL, NULL, &syllabaryR.w, &syllabaryR.h);
-            syllabarycanvas.beginDrawing();
-            SDL_Rect srcR = syllabaryR;
-            srcR.x = srcR.y = 0;
-            SDL_Rect dstR = srcR;
-            dstR.y = i * line_h;
-            CSurface::OnDraw(tmp_text, srcR, dstR);
-            syllabarycanvas.stopDrawing();
-            SDL_DestroyTexture(tmp_text);
-          }
-        }
+    case W_SYLLAB: {
+      // check if the last line is getting too long
+      int line = syllabarytext.size() - 1;
+      std::string tmpstr = syllabarytext[line] + text;
+      int w = 0;
+      TTF_SizeUTF8(CText::getFont(syllabaryfont), tmpstr.c_str(), &w, NULL);
+      if (w > syllab_entry.w) {
+        // last line is too long; start a new one
+        syllabarytext.push_back(text);
+      } else {
+        // last line is not too long; append text to it
+        syllabarytext[line] += text;
       }
       break;
     }
-    case createcard::W_DEFINE: {
-      {
-        // check if the last line is getting too long
-        int line = definetext.size() - 1;
-        std::string tmpstr = definetext[line] + text;
-        int w = 0;
-        TTF_SizeUTF8(smolfont, tmpstr.c_str(), &w, NULL);
-        if (w > createcard::define_entry.w) {
-          // last line is too long; start a new one
-          definetext.push_back(text);
-        } else {
-          // last line is not too long; append text to it
-          definetext[line] += text;
-        }
-      }
-
-      definecanvas.clearCanvas();
-      int line_h = TTF_FontLineSkip(smolfont);
-      for (int i = 0; i < definetext.size(); i++) {
-        tmp_surf = TTF_RenderUTF8_Blended(smolfont, definetext[i].c_str(), tmp_color);
-        if (tmp_surf) {
-          SDL_Texture* tmp_text = SDL_CreateTextureFromSurface(CSurface::getRenderer(), tmp_surf);
-          SDL_FreeSurface(tmp_surf);
-          if (tmp_text) {
-            SDL_QueryTexture(tmp_text, NULL, NULL, &defineR.w, &defineR.h);
-            definecanvas.beginDrawing();
-            SDL_Rect srcR = defineR;
-            srcR.x = srcR.y = 0;
-            SDL_Rect dstR = srcR;
-            dstR.y = i * line_h;
-            CSurface::OnDraw(tmp_text, srcR, dstR);
-            definecanvas.stopDrawing();
-            SDL_DestroyTexture(tmp_text);
-          }
-        }
+    case W_DEFINE: {
+      // check if the last line is getting too long
+      int line = definetext.size() - 1;
+      std::string tmpstr = definetext[line] + text;
+      int w = 0;
+      TTF_SizeUTF8(CText::getFont(definefont), tmpstr.c_str(), &w, NULL);
+      if (w > define_entry.w) {
+        // last line is too long; start a new one
+        definetext.push_back(text);
+      } else {
+        // last line is not too long; append text to it
+        definetext[line] += text;
       }
       break;
     }
@@ -179,69 +149,9 @@ void CCreate::OnTextInput(char const* text) {
 }
 
 void CCreate::OnTextEditing(char const* text, Sint32 start, Sint32 length) {
-  if (candidatetexture) SDL_DestroyTexture(candidatetexture);
-
-  if (text[0] == '\0') return;
-
-  SDL_Color tmp_color = {255,0,0,255};
-  SDL_Surface* tmp_surf = TTF_RenderUTF8_Blended((write_target == createcard::W_PHRASE) ? bigfont : smolfont, text, tmp_color);
-  if (tmp_surf != NULL) {
-    candidatetexture = SDL_CreateTextureFromSurface(CSurface::getRenderer(), tmp_surf);
-    SDL_FreeSurface(tmp_surf);
-    if (candidatetexture != NULL) {
-      SDL_QueryTexture(candidatetexture, NULL, NULL, &candidateR.w, &candidateR.h);
-      switch (write_target) {
-        case createcard::W_PHRASE: {
-          // check if the last line is getting too long
-          int line = phrasetext.size() - 1;
-          std::string tmpstr = phrasetext[line] + text;
-          int w = 0;
-          TTF_SizeUTF8(bigfont, tmpstr.c_str(), &w, NULL);
-          int line_h = TTF_FontLineSkip(bigfont);
-          if (w > createcard::phrase_entry.w) {
-            candidateR.x = phraseR.x;
-            candidateR.y = phraseR.y + line_h * phrasetext.size();
-          } else {
-            candidateR.x = phraseR.x + phraseR.w;
-            candidateR.y = phraseR.y + line_h * (phrasetext.size() - 1);
-          }
-          break;
-        }
-        case createcard::W_SYLLAB: {
-          // check if the last line is getting too long
-          int line = syllabarytext.size() - 1;
-          std::string tmpstr = syllabarytext[line] + text;
-          int w = 0;
-          TTF_SizeUTF8(smolfont, tmpstr.c_str(), &w, NULL);
-          int line_h = TTF_FontLineSkip(smolfont);
-          if (w > createcard::syllab_entry.w) {
-            candidateR.x = syllabaryR.x;
-            candidateR.y = syllabaryR.y + line_h * syllabarytext.size();
-          } else {
-            candidateR.x = syllabaryR.x + syllabaryR.w;
-            candidateR.y = syllabaryR.y + line_h * (syllabarytext.size() - 1);
-          }
-          break;
-        }
-        case createcard::W_DEFINE: {
-          // check if the last line is getting too long
-          int line = definetext.size() - 1;
-          std::string tmpstr = definetext[line] + text;
-          int w = 0;
-          TTF_SizeUTF8(smolfont, tmpstr.c_str(), &w, NULL);
-          int line_h = TTF_FontLineSkip(smolfont);
-          if (w > createcard::define_entry.w) {
-            candidateR.x = defineR.x;
-            candidateR.y = defineR.y + line_h * definetext.size();
-          } else {
-            candidateR.x = defineR.x + defineR.w;
-            candidateR.y = defineR.y + line_h * (definetext.size() - 1);
-          }
-          break;
-        }
-      }
-    }
-  }
+  using namespace createcard;
+  update_target = true;
+  candidatetext = text;
 }
 
 void CCreate::OnLButtonDown(int mX, int mY) {
@@ -320,8 +230,84 @@ void CCreate::OnLButtonUp(int mX, int mY) {
 
 }
 
-void CCreate::OnLoop(const SDL_Point& p) {
+void CCreate::OnLoop() {
+  if (!update_target) return;
+  using namespace createcard;
 
+  switch (write_target) {
+    case W_PHRASE: updateEntry(&phrasetext, phrasefont, phrasecanvas, phrase_entry); break;
+    case W_SYLLAB: updateEntry(&syllabarytext, syllabaryfont, syllabarycanvas, syllab_entry); break;
+    case W_DEFINE: updateEntry(&definetext, definefont, definecanvas, define_entry); break;
+  }
+}
+
+void CCreate::updateEntry(std::vector<std::string> *text, const short& fontID, CCanvas& canvobj, const SDL_Rect& entryR) {
+  if (text == NULL) return;
+
+  int extended_last_w = 0; // width of last line extended with candidate text
+  bool cand_newline = false;
+
+  if (!candidatetext.empty()) {
+    // check if the last line is too long with the candidate added
+    int line = (*text).size() - 1;
+    std::string tmpstr = (*text)[line] + candidatetext;
+    TTF_SizeUTF8(CText::getFont(fontID), tmpstr.c_str(), &extended_last_w, NULL);
+    if (extended_last_w > entryR.w) {
+      // last line is too long with candidate added
+      cand_newline = true;
+    }
+  }
+
+  canvobj.clearCanvas();
+
+  int line_h  = CText::getLineH(fontID);
+  int total_h = line_h * ((*text).size() + (bool)(cand_newline));
+  SDL_Rect dstR, srcR;
+  srcR.x = srcR.y = 0;
+  for (int i = 0; i < (*text).size(); i++) {
+    SDL_Texture* tmp_text = CText::drawText(fontID, (*text)[i].c_str(), *createcard::txt_col, &srcR);
+    if (tmp_text) {
+      canvobj.beginDrawing();
+
+      dstR = srcR;
+      if (i == (*text).size() - 1 && !candidatetext.empty() && !cand_newline) {
+        dstR.x = (entryR.w - extended_last_w) / 2; // extended centered line
+      } else {
+        dstR.x = (entryR.w - dstR.w) / 2; // regular centered line
+      }
+      dstR.y = ((entryR.h - total_h) / 2) + (i * line_h);
+      CSurface::OnDraw(tmp_text, srcR, dstR);
+
+      canvobj.stopDrawing();
+      SDL_DestroyTexture(tmp_text);
+    }
+  }
+
+  if (!candidatetext.empty()) {
+    SDL_Texture* tmp_text = CText::drawText(fontID, candidatetext.c_str(), *createcard::edit_col, &srcR);
+    if (tmp_text) {
+      canvobj.beginDrawing();
+
+      /* Note here that dstR represents the dims of the
+         last rendered line (without the candidate) on canvas */
+      candidateR = srcR;
+      if (cand_newline) {
+        candidateR.x = (entryR.w - candidateR.w) / 2; // new centered line
+        candidateR.y = dstR.y + line_h;
+      } else if (!(*text)[0].empty()) {
+        candidateR.x = dstR.x + dstR.w; // extended centered line
+        candidateR.y = dstR.y;
+      } else {
+        candidateR.x = (entryR.w - candidateR.w) / 2; // new centered line
+        candidateR.y = (entryR.h - candidateR.h) / 2;
+      }
+
+      CSurface::OnDraw(tmp_text, srcR, candidateR);
+
+      canvobj.stopDrawing();
+      SDL_DestroyTexture(tmp_text);
+    }
+  }
 }
 
 void CCreate::OnRender() {
@@ -335,9 +321,4 @@ void CCreate::OnRender() {
   CSurface::OnDraw(syllabarycanvas.canvas, syllabarycanvas.canvR, syllab_entry);
   CSurface::OnDraw(definecanvas.canvas, definecanvas.canvR, define_entry);
 
-  if (candidatetexture != NULL) {
-    SDL_Rect srcR = candidateR;
-    srcR.x = srcR.y = 0;
-    CSurface::OnDraw(candidatetexture, srcR, candidateR);
-  }
 }
