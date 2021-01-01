@@ -77,6 +77,12 @@ namespace rgb
   const SDL_Color dark_violet   = {119, 0, 114};
   const SDL_Color dark_magenta  = {165, 0, 53};
   const SDL_Color black         = {0, 0, 0};
+
+  const SDL_Color sky_blue      = {135, 206, 235};
+  const SDL_Color ice_blue      = {191, 231, 255};
+  const SDL_Color charcoal      = {23, 13, 2};
+  const SDL_Color carbon        = {23, 21, 21};
+  const SDL_Color ash           = {45, 43, 43};
 }
 
 namespace carot {

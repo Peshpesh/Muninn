@@ -62,6 +62,11 @@ bool CApp::OnInit() {
     return false;
   }
 
+  if (!CTitle::control.OnInit()) {
+    CError::handler.ReportErr("FATAL => CTitle failed to initialize.");
+    return false;
+  }
+
   // if (!CGameIO::control.init()) {
   //   CError::handler.ReportErr("FATAL => CGameIO failed to initialize.");
   //   return false;

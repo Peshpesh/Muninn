@@ -4,6 +4,7 @@ void CApp::OnCleanup() {
   SDL_DestroyWindow(Win_Display);
 
   CType::control.OnCleanup();
+  CCreate::control.OnCleanup();
   CAsset::OnCleanup();
   CSurface::OnCleanup();
   // CGame::control.OnCleanup();

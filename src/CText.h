@@ -45,6 +45,7 @@ public:
 
   static TTF_Font* getFont(const short& ID);
   static SDL_Texture* drawText(const short& ID, char const* text, const SDL_Color& c, SDL_Rect* textureR);
+  static SDL_Texture* drawItalicText(const short& ID, char const* text, const SDL_Color& c, SDL_Rect* textureR);
   static int getLineH(const short& ID);
 };
 

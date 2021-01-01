@@ -1,41 +1,34 @@
 #include "CTitle.h"
 
-bool CTitle::OnRender(const SDL_Point& p) {
+void CTitle::OnRender(const SDL_Point& p) {
   using namespace title;
 
-  static const SDL_Rect* opts[] = {
-    &r_lesson,
-    &r_vocab,
-    &r_grammar,
-    &r_practice,
-    &r_add,
-    &r_stats
-  };
+  // bool retval = false;
 
-  bool retval = false;
-  CType::control.SetFont(FONT_DEFAULT);
+  CAsset::fillScreen(*bg_col);
 
-  CAsset::drawBoxFill(r_lesson,   c_lesson);
-  CAsset::drawBoxFill(r_vocab,    c_vocab);
-  CAsset::drawBoxFill(r_grammar,  c_grammar);
-  CAsset::drawBoxFill(r_practice, c_practice);
-  CAsset::drawBoxFill(r_add,      c_add);
-  CAsset::drawBoxFill(r_stats,    c_stats);
-
-  for (int i = 0; i < sizeof(opts)/sizeof(opts[0]); i++) {
-    if (SDL_PointInRect(&p, opts[i])) {
+  SDL_Rect fsrcR;
+  fsrcR.x = 0;
+  fsrcR.w = r_opts[0].w;
+  fsrcR.h = r_opts[0].h;
+  for (int i = 0; i < num_options; i++) {
+    fsrcR.y = i * r_opts[0].h;
+    CAsset::drawBoxFill(r_opts[i], c_opts[i]);
+    CSurface::OnDraw(TextLayer.canvas, fsrcR, r_opts[i]);
+    if (SDL_PointInRect(&p, &r_opts[i])) {
       CAsset::paletteAlpha(MAX_RGBA / 5);
-      CAsset::drawBoxFill(*opts[i], &palette::black);
+      CAsset::drawBoxFill(r_opts[i], &palette::black);
       CAsset::paletteReset();
     }
   }
 
-  CType::CenterWrite(t_lesson,   r_lesson,   f_def);
-  CType::CenterWrite(t_vocab,    r_vocab,    f_def);
-  CType::CenterWrite(t_grammar,  r_grammar,  f_def);
-  CType::CenterWrite(t_practice, r_practice, f_def);
-  CType::CenterWrite(t_add,      r_add,      f_def);
-  CType::CenterWrite(t_stats,    r_stats,    f_def);
+  // SDL_Rect srcR, dstR;
+  // srcR.x = srcR.y = 0;
+  // srcR.w = r_opts[0].w;
+  // srcR.h = r_opts[0].h * num_options;
+  // dstR = srcR;
+  //
+  // CSurface::OnDraw(TextLayer.canvas, srcR, dstR);
 
   // CMask test;
   // int W = 0;
@@ -69,5 +62,5 @@ bool CTitle::OnRender(const SDL_Point& p) {
   // CType::Write(FONT_DEFAULT, t_lesson, pos, &rgb::red);
   // test.stopDrawing();
   // test.makeCompound();
-  return retval;
+  // return retval;
 }

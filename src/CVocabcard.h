@@ -3,16 +3,6 @@
 
 #include <string>
 
-#include "CMode.h"
-#include "CEvent.h"
-#include "CAsset.h"
-#include "CType.h"
-#include "CUtil.h"
-#include "CSound.h"
-#include "CMask.h"
-
-#include "CConfig.h"
-
 enum { // vocabtypes
   UNKNOWN       = 0,
   NOUN          = 0x0001,
@@ -28,16 +18,20 @@ enum { // vocabtypes
   PREPOSITION   = 0x0400,
   IRREGULAR     = 0x0800,
   PHRASE        = 0x1000,
-  SLANG         = 0x2000,
+  FORMAL        = 0x2000,
+  CASUAL        = 0x4000,
+  SLANG         = 0x8000,
 };
 
 struct CVocabcard {
-  std::string romajikana;
-  std::string english;
+  std::string jp;
+  std::string kana;
+  std::string en;
   short vocabtype;
   short JLPT_rank;
   short lesson_ID;
   short topic_ID;
+  CVocabcard(): vocabtype(UNKNOWN), JLPT_rank(0), lesson_ID(0), topic_ID(0) {};
 };
 
 #endif

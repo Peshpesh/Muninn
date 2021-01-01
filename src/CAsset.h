@@ -176,6 +176,12 @@ namespace rgb
   extern const SDL_Color dark_indigo;
   extern const SDL_Color dark_violet;
   extern const SDL_Color dark_magenta;
+
+  extern const SDL_Color sky_blue;
+  extern const SDL_Color ice_blue;
+  extern const SDL_Color charcoal;
+  extern const SDL_Color carbon;
+  extern const SDL_Color ash;
 }
 
 namespace carot {

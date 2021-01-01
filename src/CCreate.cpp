@@ -3,7 +3,6 @@
 CCreate CCreate::control;
 
 CCreate::CCreate() {
-  // candidatetexture = NULL;
   write_target = 0;
   update_target = false;
 
@@ -11,19 +10,9 @@ CCreate::CCreate() {
   syllabaryfont = JP_DEFAULT_MID;
   definefont = LA_DEFAULT_SMOL;
 
-  phraseR.x = createcard::phrase_entry.x;
-  phraseR.y = createcard::phrase_entry.y;
-  phraseR.w = phraseR.h = 0;
-
-  syllabaryR.x = createcard::syllab_entry.x;
-  syllabaryR.y = createcard::syllab_entry.y;
-  syllabaryR.w = syllabaryR.h = 0;
-
   candidateR.x = candidateR.y = candidateR.w = candidateR.h = 0;
 
-  defineR.x = createcard::define_entry.x;
-  defineR.y = createcard::define_entry.y;
-  defineR.w = defineR.h = 0;
+  info_alpha = 0.33 * MAX_RGBA;
 }
 
 bool CCreate::OnInit() {
@@ -32,10 +21,47 @@ bool CCreate::OnInit() {
   if (!phrasecanvas.initCanvas(phrase_entry.w, phrase_entry.h)) return false;
   if (!syllabarycanvas.initCanvas(syllab_entry.w, syllab_entry.h)) return false;
   if (!definecanvas.initCanvas(define_entry.w, define_entry.h)) return false;
+  if (!infocanvas.initCanvas(phrase_entry.w, phrase_entry.h + syllab_entry.h + define_entry.h)) return false;
 
   phrasetext.push_back("");
   syllabarytext.push_back("");
   definetext.push_back("");
+
+  SDL_Rect dstR, srcR;
+  srcR.x = srcR.y = 0;
+
+  SDL_Texture* tmp_text;
+  int line_h;
+
+  infocanvas.beginDrawing();
+
+  if ((tmp_text = CText::drawItalicText(LA_DEFAULT_LORGE, "Word or phrase", *txt_col, &srcR)) == NULL) return false;
+  line_h = CText::getLineH(LA_DEFAULT_LORGE);
+  dstR = srcR;
+  dstR.x = (phrase_entry.w - srcR.w) / 2;
+  dstR.y = (phrase_entry.h - line_h) / 2;
+  CSurface::OnDraw(tmp_text, srcR, dstR);
+  SDL_DestroyTexture(tmp_text);
+
+  if ((tmp_text = CText::drawItalicText(LA_DEFAULT_SMOL, "Kana (optional)", *txt_col, &srcR)) == NULL) return false;
+  line_h = CText::getLineH(LA_DEFAULT_SMOL);
+  dstR = srcR;
+  dstR.x = (syllab_entry.w - srcR.w) / 2;
+  dstR.y = phrase_entry.h + ((syllab_entry.h - line_h) / 2);
+  CSurface::OnDraw(tmp_text, srcR, dstR);
+  SDL_DestroyTexture(tmp_text);
+
+  if ((tmp_text = CText::drawItalicText(definefont, "Translation", *txt_col, &srcR)) == NULL) return false;
+  line_h = CText::getLineH(definefont);
+  dstR = srcR;
+  dstR.x = (define_entry.w - srcR.w) / 2;
+  dstR.y = phrase_entry.h + syllab_entry.h + ((define_entry.h - line_h) / 2);
+  CSurface::OnDraw(tmp_text, srcR, dstR);
+  SDL_DestroyTexture(tmp_text);
+
+  infocanvas.stopDrawing();
+
+  SDL_SetTextureAlphaMod(infocanvas.canvas, info_alpha);
 
   return true;
 }
@@ -172,18 +198,24 @@ void CCreate::OnLButtonDown(int mX, int mY) {
 
   if (write_target != orig_target) {
     if (SDL_IsTextInputActive()) SDL_StopTextInput();
+    candidatetext.clear();
+    switch (orig_target) {
+      case W_PHRASE: updateEntry(&phrasetext, phrasefont, phrasecanvas, phrase_entry); break;
+      case W_SYLLAB: updateEntry(&syllabarytext, syllabaryfont, syllabarycanvas, syllab_entry); break;
+      case W_DEFINE: updateEntry(&definetext, definefont, definecanvas, define_entry); break;
+    }
     if (write_target) {
       switch (write_target) {
         case W_PHRASE: {
-          SDL_SetTextInputRect(&phraseR);
+          // SDL_SetTextInputRect(&phraseR);
           break;
         }
         case W_SYLLAB: {
-          SDL_SetTextInputRect(&syllabaryR);
+          // SDL_SetTextInputRect(&syllabaryR);
           break;
         }
         case W_DEFINE: {
-          SDL_SetTextInputRect(&defineR);
+          // SDL_SetTextInputRect(&defineR);
           break;
         }
       }
@@ -313,12 +345,57 @@ void CCreate::updateEntry(std::vector<std::string> *text, const short& fontID, C
 void CCreate::OnRender() {
   using namespace createcard;
 
-  CAsset::drawBoxFill(phrase_entry, &palette::yellow);
-  CAsset::drawBoxFill(syllab_entry, &palette::green);
-  CAsset::drawBoxFill(define_entry, &palette::cyan);
+  CAsset::fillScreen(*bg_col);
 
-  CSurface::OnDraw(phrasecanvas.canvas, phrasecanvas.canvR, phrase_entry);
-  CSurface::OnDraw(syllabarycanvas.canvas, syllabarycanvas.canvR, syllab_entry);
-  CSurface::OnDraw(definecanvas.canvas, definecanvas.canvR, define_entry);
+  CAsset::drawBoxFill(phrase_entry, *entry_col);
+  CAsset::drawBoxFill(syllab_entry, *entry_col);
+  CAsset::drawBoxFill(define_entry, *entry_col);
 
+  if (!phrasetext[0].empty() || write_target == W_PHRASE) {
+    CSurface::OnDraw(phrasecanvas.canvas, phrasecanvas.canvR, phrase_entry);
+  } else {
+    SDL_Rect srcR = phrase_entry;
+    srcR.x = srcR.y = 0;
+    CSurface::OnDraw(infocanvas.canvas, srcR, phrase_entry);
+  }
+
+  if (!syllabarytext[0].empty() || write_target == W_SYLLAB) {
+    CSurface::OnDraw(syllabarycanvas.canvas, syllabarycanvas.canvR, syllab_entry);
+  } else {
+    SDL_Rect srcR = syllab_entry;
+    srcR.x = 0;
+    srcR.y = phrase_entry.h;
+    CSurface::OnDraw(infocanvas.canvas, srcR, syllab_entry);
+  }
+
+  if (!definetext[0].empty() || write_target == W_DEFINE) {
+    CSurface::OnDraw(definecanvas.canvas, definecanvas.canvR, define_entry);
+  } else {
+    SDL_Rect srcR = define_entry;
+    srcR.x = 0;
+    srcR.y = phrase_entry.h + syllab_entry.h;
+    CSurface::OnDraw(infocanvas.canvas, srcR, define_entry);
+  }
+}
+
+void CCreate::OnCleanup() {
+  phrasecanvas.cleanup();
+  syllabarycanvas.cleanup();
+  definecanvas.cleanup();
+  infocanvas.cleanup();
+
+  for (int i = 0; i < phrasetext.size(); i++) {
+    phrasetext[i].clear();
+  }
+  for (int i = 0; i < syllabarytext.size(); i++) {
+    syllabarytext[i].clear();
+  }
+  for (int i = 0; i < definetext.size(); i++) {
+    definetext[i].clear();
+  }
+
+  phrasetext.clear();
+  syllabarytext.clear();
+  definetext.clear();
+  candidatetext.clear();
 }

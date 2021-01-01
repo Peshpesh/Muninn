@@ -13,6 +13,7 @@
 
 // #include "CIO.h"
 #include "CTransition.h"
+#include "CText.h"
 
 /*
   Selections to depict in the title screen/main menu:
@@ -40,15 +41,17 @@ public:
 
 private:
   app_module* transMode; // new mode to transition to from title menu
+  CCanvas TextLayer;
+  short listfont;
 
 public:
-  void OnInit();
+  bool OnInit();
 
   void OnEvent(SDL_Event* Event);
 
   void OnLoop();
 
-  bool OnRender(const SDL_Point& p);
+  void OnRender(const SDL_Point& p);
 
   void OnCleanup();
 
@@ -58,6 +61,7 @@ private:
 };
 
 namespace title {
+  extern const SDL_Color* bg_col; 
   extern const SDL_Color* f_def;
   extern const SDL_Color* f_hov;
   extern const SDL_Color* f_lock;
@@ -65,29 +69,33 @@ namespace title {
   // extern const SDL_Point* o_hov;
   // extern const SDL_Point* o_lock;
 
-  extern const SDL_Rect r_lesson;
-  extern const SDL_Rect r_vocab;
-  extern const SDL_Rect r_grammar;
-  extern const SDL_Rect r_practice;
-  extern const SDL_Rect r_add;
-  extern const SDL_Rect r_stats;
+  extern const SDL_Rect r_opts[];
+  extern const char* const t_opts[];
+  extern const SDL_Point* c_opts[];
+  extern const app_module a_opts[];
 
-  extern const char* const t_lesson;
-  extern const char* const t_vocab;
-  extern const char* const t_grammar;
-  extern const char* const t_practice;
-  extern const char* const t_add;
-  extern const char* const t_stats;
+  extern const short num_options;
 
-  extern const SDL_Point* c_lesson;
-  extern const SDL_Point* c_vocab;
-  extern const SDL_Point* c_grammar;
-  extern const SDL_Point* c_practice;
-  extern const SDL_Point* c_add;
-  extern const SDL_Point* c_stats;
-
-  // extern const short num_options;
-  // extern const char* const opt_list[];
+  // extern const SDL_Rect r_lesson;
+  // extern const SDL_Rect r_vocab;
+  // extern const SDL_Rect r_grammar;
+  // extern const SDL_Rect r_practice;
+  // extern const SDL_Rect r_add;
+  // extern const SDL_Rect r_stats;
+  //
+  // extern const char* const t_lesson;
+  // extern const char* const t_vocab;
+  // extern const char* const t_grammar;
+  // extern const char* const t_practice;
+  // extern const char* const t_add;
+  // extern const char* const t_stats;
+  //
+  // extern const SDL_Point* c_lesson;
+  // extern const SDL_Point* c_vocab;
+  // extern const SDL_Point* c_grammar;
+  // extern const SDL_Point* c_practice;
+  // extern const SDL_Point* c_add;
+  // extern const SDL_Point* c_stats;
 }
 
 #endif
